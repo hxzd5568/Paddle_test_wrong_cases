@@ -1,0 +1,571 @@
+-- Convert index_code_gen_value_util.py -> index_code_gen_value_util.py.json
+-- Convert index_drr_pass_util.py -> index_drr_pass_util.py.json
+-- Convert kernel_arg_translator_util.py -> kernel_arg_translator_util.py.json
+-- Convert index_program_translator_util.py -> index_program_translator_util.py.json
+-- Convert low_level_ir_code_gen_ctx_util.py -> low_level_ir_code_gen_ctx_util.py.json
+-- Convert kernel_arg_id_util.py -> kernel_arg_id_util.py.json
+-- Convert code_gen_value_util.py -> code_gen_value_util.py.json
+-- Convert op_index_translator_util.py -> op_index_translator_util.py.json
+-- Convert op_compute_translator_util.py -> op_compute_translator_util.py.json
+-- Convert program_translator_util.py -> program_translator_util.py.json
+-- Convert __main__.py -> __main__.py.json
+-- Convert topo_drr_pass.py -> topo_drr_pass.py.json
+-- Convert op_convertion_drr_pass.py -> op_convertion_drr_pass.py.json
+-- Convert access_topo_drr.py -> access_topo_drr.py.json
+-- Convert abstract_drr.py -> abstract_drr.py.json
+-- Convert ap_tpl_codegen.py -> ap_tpl_codegen.py.json
+-- Convert matmul_binary_tpl.py -> matmul_binary_tpl.py.json
+-- Convert test_matmul_binary.py -> test_matmul_binary.py.json
+-- Convert test_matmul_trinary.py -> test_matmul_trinary.py.json
+-- Convert test_matmul_trinary.py -> test_matmul_trinary.py.json
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+E0228 21:08:08.978796 111585 ir_helper_method_class.cc:386] REGISTER_AP_BUILTIN_MODULE ir_tools
+W0228 21:08:09.877642 111585 gpu_resources.cc:119] Please NOTE: device: 0, GPU Compute Capability: 8.0, Driver API Version: 12.0, Runtime API Version: 11.8
+W0228 21:08:09.878537 111585 gpu_resources.cc:164] device: 0, cuDNN Version: 8.6.
+I0228 21:08:12.213258 111585 build_cinn_pass.cc:68] Time of building group ops (size=14): 0 min 0 s 1 ms
+I0228 21:08:12.215240 111585 add_cinn_pass.cc:326] FusionOp count before lowering : *****[ 2 ]*****
+I0228 21:08:12.215288 111585 add_cinn_pass.cc:263] Enable AP Generic DRR Pass
+E0228 21:08:12.270889 111585 add_cinn_pass.cc:230] before ApLowerFusionOpAbstractDrrPass:
+{
+    (%0) = "pd_op.data" () {dtype:float16,name:"x",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[false]} : () -> tensor<4x65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"y",place:Place(undefined:0),shape:[256,256],stop_gradient:[false]} : () -> tensor<256x256xf16>
+    (%2) = "pd_op.data" () {dtype:float16,name:"b",place:Place(undefined:0),shape:[65536,256],stop_gradient:[false]} : () -> tensor<65536x256xf16>
+    (%3) = "pd_op.data" () {dtype:float16,name:"c",place:Place(undefined:0),shape:[65536,256],stop_gradient:[false]} : () -> tensor<65536x256xf16>
+    (%4) = "pd_op.data" () {dtype:float16,name:"x2",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[false]} : () -> tensor<4x65536x256xf16>
+    (%5) = "pd_op.data" () {dtype:float16,name:"y2",place:Place(undefined:0),shape:[256,256],stop_gradient:[false]} : () -> tensor<256x256xf16>
+    (%6) = "pd_op.data" () {dtype:float16,name:"b2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[false]} : () -> tensor<65536x256xf16>
+    (%7) = "pd_op.data" () {dtype:float16,name:"c2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[false]} : () -> tensor<65536x256xf16>
+    (%8) = "pd_op.matmul" (%0, %1) {stop_gradient:[false],transpose_x:false,transpose_y:false} : (tensor<4x65536x256xf16>, tensor<256x256xf16>) -> tensor<4x65536x256xf16>
+    (%9) = "cinn_op.fusion" () -> tensor<4x65536x256xf16> {
+        (%10) = "cinn_op.broadcast" (%2) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+        (%11) = "pd_op.subtract" (%8, %10) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+        (%12) = "cinn_op.yield_store" (%11) {} : (tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+        () = "cf.yield" (%12) {} : (tensor<4x65536x256xf16>) -> 
+    }
+    (%13) = "pd_op.matmul" (%9, %5) {stop_gradient:[false],transpose_x:false,transpose_y:false} : (tensor<4x65536x256xf16>, tensor<256x256xf16>) -> tensor<4x65536x256xf16>
+    (%14) = "cinn_op.fusion" () -> tensor<4x65536x256xf16> {
+        (%15) = "cinn_op.broadcast" (%6) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+        (%16) = "pd_op.subtract" (%13, %15) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+        (%17) = "cinn_op.broadcast" (%7) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+        (%18) = "pd_op.add" (%16, %17) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+        (%19) = "cinn_op.yield_store" (%18) {} : (tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+        () = "cf.yield" (%19) {} : (tensor<4x65536x256xf16>) -> 
+    }
+    () = "builtin.shadow_output" (%14) {output_name:"output_0"} : (tensor<4x65536x256xf16>) -> 
+}
+E0228 21:08:12.271696 111585 builtin_functions.cc:121] Print
+....begin copy program
+E0228 21:08:12.272002 111585 builtin_functions.cc:121] Print
+....exit copy program
+E0228 21:08:12.272073 111585 builtin_functions.cc:121] Print
+before-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"input2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%2) = "cinn_op.broadcast" (%0) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%3) = "pd_op.subtract" (%1, %2) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%4) = "cinn_op.yield_store" (%3) {} : (tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    () = "cf.yield" (%4) {} : (tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.273378 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.273402 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.274119 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.274135 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.274420 111585 builtin_functions.cc:121] Print
+after-init-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"input2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%2) = "ap_op.down_spider" (%1) {} : (tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%3) = "cinn_op.broadcast" (%0) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%4) = "pd_op.subtract" (%2, %3) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%5) = "cinn_op.yield_store" (%4) {} : (tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%6) = "pd_op.data" () {dtype:float16,name:"output",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    () = "ap_op.up_spider" (%5, %6) {} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.280740 111585 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_subtract matched.
+I0228 21:08:12.280757 111585 ap_lower_fusion_op_pass.cc:308] drr: pd_op_subtract matched.
+I0228 21:08:12.280876 111585 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 21:08:12.280885 111585 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 21:08:12.280997 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.281025 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.281054 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.281072 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.281091 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 21:08:12.281177 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 21:08:12.281183 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 21:08:12.281302 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 21:08:12.281337 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 21:08:12.281383 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.281404 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.281472 111585 ap_lower_fusion_op_pass.cc:2434] drr: left_down_spider_up_spider matched.
+I0228 21:08:12.281477 111585 ap_lower_fusion_op_pass.cc:308] drr: left_down_spider_up_spider matched.
+I0228 21:08:12.281661 111585 ap_lower_fusion_op_pass.cc:2434] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.281668 111585 ap_lower_fusion_op_pass.cc:308] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.281901 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.281931 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.281950 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.281970 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.281991 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 21:08:12.282011 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.282029 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.282047 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.282064 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.282080 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 21:08:12.282099 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.282116 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.282135 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.282151 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.282171 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+E0228 21:08:12.282253 111585 builtin_functions.cc:121] Print
+after-apply-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"input2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%2) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0]} : () -> tensor<1xi64>
+    (%3) = "pd_op.sum" (%1, %2) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<4x65536x256xf16>, tensor<1xi64>) -> tensor<65536x256xf16>
+    () = "ap_op.up_spider" (%3, %0) {} : (tensor<65536x256xf16>, tensor<65536x256xf16>) -> 
+    (%4) = "pd_op.data" () {dtype:float16,name:"output",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    () = "ap_op.up_spider" (%1, %4) {} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> 
+}
+E0228 21:08:12.282370 111585 builtin_functions.cc:121] Print
+after-remove-data-op-pair-pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"input2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%2) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0]} : () -> tensor<1xi64>
+    (%3) = "pd_op.sum" (%1, %2) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<4x65536x256xf16>, tensor<1xi64>) -> tensor<65536x256xf16>
+    () = "ap_op.up_spider" (%3, %0) {} : (tensor<65536x256xf16>, tensor<65536x256xf16>) -> 
+    (%4) = "pd_op.data" () {dtype:float16,name:"output",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    () = "ap_op.up_spider" (%1, %4) {} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.283252 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.283293 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.283528 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.283538 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.283605 111585 builtin_functions.cc:121] Print
+after-remove_data_op2sum_op2data_op_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"output",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    () = "ap_op.up_spider" (%0, %1) {} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.284415 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 21:08:12.284541 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 21:08:12.284564 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 21:08:12.284585 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.284672 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.284678 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.284714 111585 builtin_functions.cc:121] Print
+after-remove-input-output-access_topo_pass {
+}
+I0228 21:08:12.284947 111585 ap_lower_fusion_op_pass.cc:2299] drr: matmul_binary_fusion matched.
+I0228 21:08:12.284956 111585 ap_lower_fusion_op_pass.cc:308] drr: matmul_binary_fusion matched.
+I0228 21:08:12.286311 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.286330 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.286484 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.286495 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.287189 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.287207 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.288050 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.288069 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.294422 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.294517 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_load_from_global matched.
+I0228 21:08:12.294523 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_load_from_global matched.
+I0228 21:08:12.294613 111585 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_subtract matched.
+I0228 21:08:12.294620 111585 ap_lower_fusion_op_pass.cc:308] drr: pd_op_subtract matched.
+I0228 21:08:12.294713 111585 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 21:08:12.294718 111585 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 21:08:12.294777 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.294862 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 21:08:12.294867 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 21:08:12.294970 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 21:08:12.294975 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 21:08:12.295022 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.295130 111585 ap_lower_fusion_op_pass.cc:2434] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.295135 111585 ap_lower_fusion_op_pass.cc:308] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.295291 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.295322 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.295343 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.295362 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.295380 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.295398 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 21:08:12.296557 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.296717 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.296727 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.297432 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.297449 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.297610 111585 builtin_functions.cc:121] Print
+index_func_unique_id2index_program:
+ OrderedDict([[input2, {
+    (%0) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0]} : () -> tensor<1xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<4x65536x256xf16>, tensor<1xi64>) -> tensor<65536x256xf16>
+    () = "cf.yield" (%2) {} : (tensor<65536x256xf16>) -> 
+}
+]])
+I0228 21:08:12.298100 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.298116 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.298956 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.299041 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.299046 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.299799 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.299816 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.299947 111585 builtin_functions.cc:121] Print
+mut_program: {
+    (%0) = "pd_op.data" () {dtype:float16,name:"input2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%1) = "ap_op.load_from_global" (%0) {index_func_unique_id:"input2"} : (tensor<65536x256xf16>) -> tensor<65536x256xf16>
+    (%2) = "ap_op.load_from_register" () {name:"mm_out",register_var_name:"x",symbolic_shape_or_data:,type:tensor<4x65536x256xf16>} : () -> tensor<4x65536x256xf16>
+    (%3) = "cinn_op.broadcast" (%1) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%4) = "pd_op.subtract" (%2, %3) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%5) = "cinn_op.yield_store" (%4) {} : (tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    () = "ap_op.store_to_register" (%5) {name:"output",register_var_name:"out"} : (tensor<4x65536x256xf16>) -> 
+}
+E0228 21:08:12.300801 111585 builtin_functions.cc:121] Print
+-- kargs_name_pair_list: [[<InTensorDataPtrKernelArgId object at 0x51fc5870>, input0], [<InTensorDataPtrKernelArgId object at 0x52028810>, input1], [<OutTensorDataPtrKernelArgId object at 0x52020560>, output], [4, input0_dim0], [65536, input0_dim1], [256, input0_dim2], [256, input1_dim0], [256, input1_dim1]]
+E0228 21:08:12.303547 111585 builtin_functions.cc:121] Print
+-- matmul_binary_epilogue_code:
+ float op1_out0 = static_cast<float>(args.in_ptr_0[(coord.row * args.input0_dim2 + coord.column)]);
+    float op4_out0 = static_cast<float>((x - op1_out0));
+    out = op4_out0;
+E0228 21:08:12.303567 111585 builtin_functions.cc:121] Print
+----begin making project
+E0228 21:08:12.304423 111585 builtin_functions.cc:121] Print
+----end making project
+E0228 21:08:12.305780 111585 builtin_functions.cc:121] Print
+....begin copy program
+E0228 21:08:12.305907 111585 ap_lower_fusion_op_pass.cc:2279] 
+Traceback (most recent call last):
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 2294, in operator()
+    GetMatchCtx(op)
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 1792, in operator()
+    ConstraintApplier{}.Match(ctx_.drr_ctx, opt_graph_match_ctx.value())
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 1622, in operator()
+    ap_drr_helper.Interpret(constraint_func, args)
+  File "/work/Paddle/paddle/ap/include/axpr/cps_interpreter.h", line 69, in operator()
+    InterpretComposedCallUntilHalt(&composed_call)
+  File "/work/Paddle/paddle/ap/include/axpr/cps_interpreter.h", line 101, in operator()
+    InterpretComposedCall(composed_call)
+  File "/work/Paddle/paddle/ap/include/axpr/cps_interpreter.h", line 568, in operator()
+    func(obj, composed_call->args)
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ir_helper_method_class.cc", line 270, in operator()
+    InitIrMapping(NameGetter, pir::GetUsedExternalValue(*block), &ir_mapping, new_program->block())
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ir_helper_method_class.cc", line 305, in operator()
+    NameGetter(free_value)
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ir_helper_method_class.cc", line 140, in operator()
+    iter != map.end()
+
+ValueError: Check 'iter != map.end()' failed.
+pass_name: matmul_binary_fusion
+W0228 21:08:12.306339 111585 shape_analysis.cc:620] pd_op.ap_unary DOES NOT have InferSymbolicShapeInterface!
+E0228 21:08:12.306499 111585 builtin_functions.cc:121] Print
+before-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"input2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%2) = "pd_op.data" () {dtype:float16,name:"input3",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%3) = "cinn_op.broadcast" (%0) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%4) = "pd_op.subtract" (%1, %3) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%5) = "cinn_op.broadcast" (%2) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%6) = "pd_op.add" (%4, %5) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%7) = "cinn_op.yield_store" (%6) {} : (tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    () = "cf.yield" (%7) {} : (tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.307547 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.307565 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.307710 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.307718 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.307956 111585 builtin_functions.cc:121] Print
+after-init-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"input2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%2) = "ap_op.down_spider" (%1) {} : (tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%3) = "pd_op.data" () {dtype:float16,name:"input3",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%4) = "cinn_op.broadcast" (%0) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%5) = "pd_op.subtract" (%2, %4) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%6) = "cinn_op.broadcast" (%3) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%7) = "pd_op.add" (%5, %6) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%8) = "cinn_op.yield_store" (%7) {} : (tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%9) = "pd_op.data" () {dtype:float16,name:"output",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    () = "ap_op.up_spider" (%8, %9) {} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.314254 111585 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_subtract matched.
+I0228 21:08:12.314273 111585 ap_lower_fusion_op_pass.cc:308] drr: pd_op_subtract matched.
+I0228 21:08:12.314374 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 21:08:12.314429 111585 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 21:08:12.314435 111585 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 21:08:12.314488 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.314510 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.314529 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.314548 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.314565 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 21:08:12.314649 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 21:08:12.314654 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 21:08:12.314769 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 21:08:12.314778 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 21:08:12.314882 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 21:08:12.314889 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 21:08:12.314935 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.314955 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.315022 111585 ap_lower_fusion_op_pass.cc:2434] drr: left_down_spider_up_spider matched.
+I0228 21:08:12.315027 111585 ap_lower_fusion_op_pass.cc:308] drr: left_down_spider_up_spider matched.
+I0228 21:08:12.315178 111585 ap_lower_fusion_op_pass.cc:2434] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.315188 111585 ap_lower_fusion_op_pass.cc:308] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.315438 111585 ap_lower_fusion_op_pass.cc:2434] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.315451 111585 ap_lower_fusion_op_pass.cc:308] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.315579 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.315603 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.315622 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.315640 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.315663 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 21:08:12.315683 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.315702 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.315719 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.315738 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.315754 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 21:08:12.315773 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.315790 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.315809 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.315825 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.315841 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 21:08:12.315860 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.315877 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.315894 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.315912 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.315932 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+E0228 21:08:12.316016 111585 builtin_functions.cc:121] Print
+after-apply-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"input2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%2) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0]} : () -> tensor<1xi64>
+    (%3) = "pd_op.sum" (%1, %2) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<4x65536x256xf16>, tensor<1xi64>) -> tensor<65536x256xf16>
+    (%4) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0]} : () -> tensor<1xi64>
+    (%5) = "pd_op.sum" (%1, %4) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<4x65536x256xf16>, tensor<1xi64>) -> tensor<65536x256xf16>
+    () = "ap_op.up_spider" (%5, %0) {} : (tensor<65536x256xf16>, tensor<65536x256xf16>) -> 
+    (%6) = "pd_op.data" () {dtype:float16,name:"input3",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    () = "ap_op.up_spider" (%3, %6) {} : (tensor<65536x256xf16>, tensor<65536x256xf16>) -> 
+    (%7) = "pd_op.data" () {dtype:float16,name:"output",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    () = "ap_op.up_spider" (%1, %7) {} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.316682 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.316699 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.316785 111585 builtin_functions.cc:121] Print
+after-apply-Removesuminput2_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0]} : () -> tensor<1xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<4x65536x256xf16>, tensor<1xi64>) -> tensor<65536x256xf16>
+    (%3) = "pd_op.data" () {dtype:float16,name:"input3",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    () = "ap_op.up_spider" (%2, %3) {} : (tensor<65536x256xf16>, tensor<65536x256xf16>) -> 
+    (%4) = "pd_op.data" () {dtype:float16,name:"output",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    () = "ap_op.up_spider" (%0, %4) {} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.317549 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 21:08:12.317566 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 21:08:12.317571 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 21:08:12.317586 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.317714 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.317719 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.317785 111585 builtin_functions.cc:121] Print
+after-apply-Removesuminput3_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"output",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    () = "ap_op.up_spider" (%0, %1) {} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.318647 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 21:08:12.318665 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 21:08:12.318677 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 21:08:12.318681 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 21:08:12.318706 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+E0228 21:08:12.318850 111585 builtin_functions.cc:121] Print
+after-remove-input3_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"output",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    () = "ap_op.up_spider" (%0, %1) {} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.319857 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_4 mismatched.
+I0228 21:08:12.319875 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_4 mismatched.
+I0228 21:08:12.319886 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 21:08:12.319891 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 21:08:12.319916 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 21:08:12.320039 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+E0228 21:08:12.320166 111585 builtin_functions.cc:121] Print
+after-remove-input2_pass {
+    (%0) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"output",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    () = "ap_op.up_spider" (%0, %1) {} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.321336 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_5 mismatched.
+I0228 21:08:12.321359 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_5 mismatched.
+I0228 21:08:12.321372 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_4 mismatched.
+I0228 21:08:12.321377 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_4 mismatched.
+I0228 21:08:12.321403 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 21:08:12.321524 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 21:08:12.321633 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.321723 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.321728 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.321763 111585 builtin_functions.cc:121] Print
+after-remove-input-output-access_topo_pass {
+}
+I0228 21:08:12.322026 111585 ap_lower_fusion_op_pass.cc:2299] drr: matmul_trinary_fusion matched.
+I0228 21:08:12.322036 111585 ap_lower_fusion_op_pass.cc:308] drr: matmul_trinary_fusion matched.
+W0228 21:08:12.322120 111585 shape_analysis.cc:620] pd_op.ap_unary DOES NOT have InferSymbolicShapeInterface!
+W0228 21:08:12.322348 111585 shape_analysis.cc:620] pd_op.ap_unary DOES NOT have InferSymbolicShapeInterface!
+I0228 21:08:12.323685 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.323704 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.323854 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.323865 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.324060 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.324070 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.324796 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.324815 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.325695 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.325712 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.332119 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.332213 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_load_from_global matched.
+I0228 21:08:12.332219 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_load_from_global matched.
+I0228 21:08:12.332275 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.332353 111585 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_subtract matched.
+I0228 21:08:12.332358 111585 ap_lower_fusion_op_pass.cc:308] drr: pd_op_subtract matched.
+I0228 21:08:12.332432 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 21:08:12.332484 111585 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 21:08:12.332489 111585 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 21:08:12.332540 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.332562 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.332643 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 21:08:12.332648 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 21:08:12.332760 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 21:08:12.332767 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 21:08:12.332867 111585 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 21:08:12.332873 111585 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 21:08:12.332919 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.332947 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.333050 111585 ap_lower_fusion_op_pass.cc:2434] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.333055 111585 ap_lower_fusion_op_pass.cc:308] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.333257 111585 ap_lower_fusion_op_pass.cc:2434] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.333269 111585 ap_lower_fusion_op_pass.cc:308] drr: cinn_broadcast_up_spider matched.
+I0228 21:08:12.333407 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.333436 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.333457 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.333475 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.333494 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.333511 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 21:08:12.333531 111585 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 21:08:12.333549 111585 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 21:08:12.333567 111585 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 21:08:12.333585 111585 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 21:08:12.333602 111585 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 21:08:12.333618 111585 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 21:08:12.334812 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.334851 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.334909 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.335040 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.335047 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.335742 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.335759 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.336782 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.336941 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.336951 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.337608 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.337625 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.337827 111585 builtin_functions.cc:121] Print
+index_func_unique_id2index_program:
+ OrderedDict([[input2, {
+    (%0) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0]} : () -> tensor<1xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<4x65536x256xf16>, tensor<1xi64>) -> tensor<65536x256xf16>
+    () = "cf.yield" (%2) {} : (tensor<65536x256xf16>) -> 
+}
+], [input3, {
+    (%0) = "pd_op.data" () {dtype:float16,name:"mm_out",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[true]} : () -> tensor<4x65536x256xf16>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0]} : () -> tensor<1xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<4x65536x256xf16>, tensor<1xi64>) -> tensor<65536x256xf16>
+    () = "cf.yield" (%2) {} : (tensor<65536x256xf16>) -> 
+}
+]])
+I0228 21:08:12.338336 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.338353 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.339042 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.339061 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.339790 111585 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 21:08:12.339872 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.339879 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.340529 111585 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 21:08:12.340546 111585 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 21:08:12.340694 111585 builtin_functions.cc:121] Print
+mut_program: {
+    (%0) = "pd_op.data" () {dtype:float16,name:"input2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%1) = "ap_op.load_from_global" (%0) {index_func_unique_id:"input2"} : (tensor<65536x256xf16>) -> tensor<65536x256xf16>
+    (%2) = "ap_op.load_from_register" () {name:"mm_out",register_var_name:"x",symbolic_shape_or_data:,type:tensor<4x65536x256xf16>} : () -> tensor<4x65536x256xf16>
+    (%3) = "pd_op.data" () {dtype:float16,name:"input3",place:Place(undefined:0),shape:[65536,256],stop_gradient:[true]} : () -> tensor<65536x256xf16>
+    (%4) = "ap_op.load_from_global" (%3) {index_func_unique_id:"input3"} : (tensor<65536x256xf16>) -> tensor<65536x256xf16>
+    (%5) = "cinn_op.broadcast" (%1) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%6) = "pd_op.subtract" (%2, %5) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%7) = "cinn_op.broadcast" (%4) {broadcast_axes:[1,2],out_shape:[4,65536,256],stop_gradient:[false]} : (tensor<65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%8) = "pd_op.add" (%6, %7) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    (%9) = "cinn_op.yield_store" (%8) {} : (tensor<4x65536x256xf16>) -> tensor<4x65536x256xf16>
+    () = "ap_op.store_to_register" (%9) {name:"output",register_var_name:"out"} : (tensor<4x65536x256xf16>) -> 
+}
+E0228 21:08:12.341464 111585 builtin_functions.cc:121] Print
+-- kargs_name_pair_list: [[<InTensorDataPtrKernelArgId object at 0x521617d0>, input0], [<InTensorDataPtrKernelArgId object at 0x52162970>, input1], [<OutTensorDataPtrKernelArgId object at 0x521629b0>, output], [4, input0_dim0], [65536, input0_dim1], [256, input0_dim2], [256, input1_dim0], [256, input1_dim1]]
+E0228 21:08:12.345974 111585 builtin_functions.cc:121] Print
+-- matmul_binary_epilogue_code:
+ float op1_out0 = static_cast<float>(args.in_ptr_0[(coord.row * args.input0_dim2 + coord.column)]);
+    float op4_out0 = static_cast<float>(args.in_ptr_1[(coord.row * args.input0_dim2 + coord.column)]);
+    float op6_out0 = static_cast<float>((x - op1_out0));
+    float op8_out0 = static_cast<float>(op6_out0 + op4_out0);
+    out = op8_out0;
+E0228 21:08:12.345995 111585 builtin_functions.cc:121] Print
+----begin making project
+E0228 21:08:12.346822 111585 builtin_functions.cc:121] Print
+----end making project
+E0228 21:08:12.347824 111585 add_cinn_pass.cc:233] after ApLowerFusionOpAbstractDrrPass:
+{
+    (%0) = "pd_op.data" () {dtype:float16,name:"x",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[false]} : () -> tensor<4x65536x256xf16>
+    (%1) = "pd_op.data" () {dtype:float16,name:"y",place:Place(undefined:0),shape:[256,256],stop_gradient:[false]} : () -> tensor<256x256xf16>
+    (%2) = "pd_op.data" () {dtype:float16,name:"b",place:Place(undefined:0),shape:[65536,256],stop_gradient:[false]} : () -> tensor<65536x256xf16>
+    (%3) = "builtin.combine" (%0, %1, %2) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<256x256xf16>, tensor<65536x256xf16>) -> vec[tensor<4x65536x256xf16>,tensor<256x256xf16>,tensor<65536x256xf16>]
+    (%4) = "pd_op.ap_unary" (%3) {code_module_lambda:"[\"lambda\",[],[\"__builtin_let__\",[[\"___71\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"void\"}]],[\"___72\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"void_ptr\"}]],[\"___73\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float16_ptr\"}]],[\"___74\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float16_ptr\"}]],[\"___75\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"float16_ptr\"}]],[\"___76\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___77\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___78\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___79\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float16_ptr\"}]],[\"___80\",[\"__builtin_list__\",\"___72\",\"___73\",\"___74\",\"___75\",\"___76\",\"___77\",\"___78\",\"___79\"]],[\"___81\",[\"FuncDeclare\",\"___71\",{\"str\":\"MatmulBinaryKernel\"},\"___80\"]],[\"___82\",[\"__builtin_list__\"]],[\"___83\",[\"__builtin_list__\"]],[\"___84\",[\"__builtin_PackedArgs__\",\"___82\",\"___83\"]],[\"___85\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"FileContent\"}]],[\"___86\",[\"___85\",{\"str\":\"nvcc -std=c++17 -O3 -Xcompiler=-fPIC -arch=sm_80 --expt-relaxed-constexpr -I /work/Paddle/Athena/tests/ap/matmul/cutlass/include -I /work/Paddle/Athena/tests/ap/matmul/cutlass/tools/util/include -I /work/Paddle/Athena/tests/ap/matmul -DCUTLASS_ENABLE_TENSOR_CORE_MMA=1 -DCUTLASS_DEBUG_TRACE_LEVEL=0  --shared matmul_binary_kernel.cu -o libmatmul_binary_kernel.so\"}]],[\"___87\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"FileContent\"}]],[\"___88\",[\"___87\",{\"str\":\"\n// auto generated codes\n#include <cuda.h>\n#include <cuda_fp16.h>\n#include <vector>\n\n#include \\"cutlass_matmul.cuh\\"\n\nnamespace ap {\n\ntemplate <typename T>\nstruct VariadicEpilogueFunctor {\n  struct Arguments {\n    int64_t input0_dim2;\n    const half* in_ptr_0;\n  };\n\n  // Note: need to support vectorized operation\n  __forceinline__ __host__ __device__\n  T operator()(T x, const Arguments& args, const MatrixCoord& coord) const {\n    T out;\n    float op1_out0 = static_cast<float>(args.in_ptr_0[(coord.row * args.input0_dim2 + coord.column)]);\n    float op4_out0 = static_cast<float>((x - op1_out0));\n    out = op4_out0;\n    return out;\n  }\n};\n\n}\n\nextern \\"C\\" {\n\nvoid MatmulBinaryKernel(void* stream_ptr, const half* input0, const half* input1, half* output, int64_t input0_dim0, int64_t input0_dim1, int64_t input0_dim2, const half* in_ptr_0) {\n  std::vector<int64_t> input0_shape;\n  input0_shape.resize(3);\n  input0_shape[0] = input0_dim0;\n  input0_shape[1] = input0_dim1;\n  input0_shape[2] = input0_dim2;\n\n  std::vector<int64_t> input1_shape;\n  input1_shape.resize(2);\n  input1_shape[0] = input0_dim2;\n  input1_shape[1] = input0_dim2;\n\n  cudaStream_t* cuda_stream_ptr = reinterpret_cast<cudaStream_t*>(stream_ptr);\n  ap::GemmEpilogueParams params(\n      *cuda_stream_ptr, input0, input1, nullptr, output, input0_shape, input1_shape, std::vector<int64_t>{});\n\n  using ElementT = half;\n  using ElementComputeT = float;\n\n  typename ap::VariadicEpilogueFunctor<ElementComputeT>::Arguments epilogue_args;\n\n  epilogue_args.input0_dim2 = input0_dim2;\n  epilogue_args.in_ptr_0 = in_ptr_0;\n\n  ap::CutlassMatmulAddVariadic<ElementT, ElementComputeT, ap::VariadicEpilogueFunctor>(params, epilogue_args);\n}\n}\n\n  \"}]],[\"___89\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"Directory\"}]],[\"___90\",[\"__builtin_list__\",{\"str\":\"make.sh\"},\"___86\"]],[\"___91\",[\"__builtin_list__\",{\"str\":\"matmul_binary_kernel.cu\"},\"___88\"]],[\"___92\",[\"___89\",\"___90\",\"___91\"]],[\"___93\",[\"BuiltinSerializableAttrMap\",\"___84\"]],[\"___94\",[\"__builtin_list__\",{\"str\":\"compile_cmd\"},{\"str\":\"sh make.sh\"}]],[\"___95\",[\"__builtin_list__\",{\"str\":\"nested_files\"},\"___92\"]],[\"___96\",[\"__builtin_list__\",{\"str\":\"others\"},\"___93\"]],[\"___97\",[\"__builtin_list__\",{\"str\":\"so_relative_path\"},{\"str\":\"libmatmul_binary_kernel.so\"}]],[\"___98\",[\"__builtin_list__\"]],[\"___99\",[\"__builtin_list__\",\"___94\",\"___95\",\"___96\",\"___97\"]],[\"___100\",[\"__builtin_PackedArgs__\",\"___98\",\"___99\"]],[\"___101\",[\"__builtin_list__\",\"___81\"]],[\"___102\",[\"Project\",\"___100\"]]],[\"CodeModule\",\"___101\",\"___102\"]]]",infer_meta_lambda:"[\"lambda\",[\"inputs\",\"outputs\"],[\"__builtin_let__\",[[\"___103\",[\"__builtin_getitem__\",\"outputs\",0]],[\"___104\",[\"__builtin_list__\",4,65536,256]],[\"___105\",[\"__builtin_setattr__\",\"___103\",{\"str\":\"dims\"}]],[\"___106\",[\"___105\",{\"str\":\"dims\"},\"___104\"]],[\"___107\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"float16\"}]],[\"___108\",[\"__builtin_setattr__\",\"___103\",{\"str\":\"dtype\"}]],[\"___109\",[\"___108\",{\"str\":\"dtype\"},\"___107\"]]],null]]",kernel_dispatch_const_data_lambda:"[\"lambda\",[],[\"__builtin_let__\",[[\"___110\",[\"__builtin_list__\",{\"str\":\"output\"},0]],[\"___111\",[\"__builtin_list__\"]],[\"___112\",[\"__builtin_list__\",\"___110\"]],[\"___113\",[\"__builtin_PackedArgs__\",\"___111\",\"___112\"]],[\"___114\",[\"__builtin_list__\",{\"str\":\"input0\"},0]],[\"___115\",[\"__builtin_list__\",{\"str\":\"input1\"},1]],[\"___116\",[\"__builtin_list__\",{\"str\":\"input2\"},2]],[\"___117\",[\"__builtin_list__\"]],[\"___118\",[\"__builtin_list__\",\"___114\",\"___115\",\"___116\"]],[\"___119\",[\"__builtin_PackedArgs__\",\"___117\",\"___118\"]],[\"___120\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___50\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___51\",[\"__builtin_getitem__\",\"___50\",0]],[\"___52\",[\"__builtin_getattr__\",\"___51\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___52\"]]]]],[\"___121\",[\"__builtin_getattr__\",\"___120\",{\"str\":\"__function__\"}]],[\"___122\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___53\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___54\",[\"__builtin_getitem__\",\"___53\",1]],[\"___55\",[\"__builtin_getattr__\",\"___54\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___55\"]]]]],[\"___123\",[\"__builtin_getattr__\",\"___122\",{\"str\":\"__function__\"}]],[\"___124\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___56\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"outputs\"}]],[\"___57\",[\"__builtin_getitem__\",\"___56\",0]],[\"___58\",[\"__builtin_getattr__\",\"___57\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___58\"]]]]],[\"___125\",[\"__builtin_getattr__\",\"___124\",{\"str\":\"__function__\"}]],[\"___126\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___5\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___6\",[\"__builtin_getitem__\",\"___5\",0]],[\"___7\",[\"__builtin_getattr__\",\"___6\",{\"str\":\"shape\"}]],[\"___8\",[\"__builtin_getitem__\",\"___7\",0]],[\"___9\",[\"DataValue\",\"___8\"]],[\"___11\",[\"__builtin_getattr__\",\"___9\",{\"str\":\"cast\"}]],[\"___12\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___13\",[\"___11\",\"___12\"]],[\"___10\",[\"__builtin_identity__\",\"___13\"]]],[\"__builtin_identity__\",\"___10\"]]]]],[\"___127\",[\"__builtin_getattr__\",\"___126\",{\"str\":\"__function__\"}]],[\"___128\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___14\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___15\",[\"__builtin_getitem__\",\"___14\",0]],[\"___16\",[\"__builtin_getattr__\",\"___15\",{\"str\":\"shape\"}]],[\"___17\",[\"__builtin_getitem__\",\"___16\",1]],[\"___18\",[\"DataValue\",\"___17\"]],[\"___20\",[\"__builtin_getattr__\",\"___18\",{\"str\":\"cast\"}]],[\"___21\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___22\",[\"___20\",\"___21\"]],[\"___19\",[\"__builtin_identity__\",\"___22\"]]],[\"__builtin_identity__\",\"___19\"]]]]],[\"___129\",[\"__builtin_getattr__\",\"___128\",{\"str\":\"__function__\"}]],[\"___130\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___23\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___24\",[\"__builtin_getitem__\",\"___23\",0]],[\"___25\",[\"__builtin_getattr__\",\"___24\",{\"str\":\"shape\"}]],[\"___26\",[\"__builtin_getitem__\",\"___25\",2]],[\"___27\",[\"DataValue\",\"___26\"]],[\"___29\",[\"__builtin_getattr__\",\"___27\",{\"str\":\"cast\"}]],[\"___30\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___31\",[\"___29\",\"___30\"]],[\"___28\",[\"__builtin_identity__\",\"___31\"]]],[\"__builtin_identity__\",\"___28\"]]]]],[\"___131\",[\"__builtin_getattr__\",\"___130\",{\"str\":\"__function__\"}]],[\"___132\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___68\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___69\",[\"__builtin_getitem__\",\"___68\",2]],[\"___70\",[\"__builtin_getattr__\",\"___69\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___70\"]]]]],[\"___133\",[\"__builtin_getattr__\",\"___132\",{\"str\":\"__function__\"}]],[\"___134\",[\"__builtin_list__\",0,1,2]],[\"___135\",[\"BuiltinSerializableAttrMap\",\"___119\"]],[\"___136\",[\"__builtin_list__\",0]],[\"___137\",[\"BuiltinSerializableAttrMap\",\"___113\"]],[\"___138\",[\"__builtin_list__\",\"___121\",\"___123\",\"___125\",\"___127\",\"___129\",\"___131\",\"___133\"]],[\"___139\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_input_indexes_slices\"},\"___134\"]],[\"___140\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_input_name_to_index\"},\"___135\"]],[\"___141\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_output_indexes_slices\"},\"___136\"]],[\"___142\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_output_name_to_index\"},\"___137\"]],[\"___143\",[\"__builtin_list__\",{\"str\":\"kernel_args_getters\"},\"___138\"]],[\"___144\",[\"__builtin_list__\"]],[\"___145\",[\"__builtin_list__\",\"___139\",\"___140\",\"___141\",\"___142\",\"___143\"]],[\"___146\",[\"__builtin_PackedArgs__\",\"___144\",\"___145\"]]],[\"BuiltinSerializableAttrMap\",\"___146\"]]]",num_outputs:1,rnel_dispatch_lambda:"[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___368\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"get_so_function\"}]],[\"___369\",[\"___368\",{\"str\":\"MatmulBinaryKernel\"}]],[\"so_func\",[\"__builtin_identity__\",\"___369\"]],[\"___371\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"device_ctx\"}]],[\"___370\",[\"__builtin_getattr__\",\"___371\",{\"str\":\"get_stream_addr_as_void_ptr\"}]],[\"___372\",[\"___370\"]],[\"stream_ptr\",[\"__builtin_identity__\",\"___372\"]],[\"___374\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"kernel_dispatch_const_data\"}]],[\"___373\",[\"__builtin_getattr__\",\"___374\",{\"str\":\"kernel_args_getters\"}]],[\"getters\",[\"__builtin_identity__\",\"___373\"]],[\"___376\",[\"map\",[\"lambda\",[\"getter\"],[\"__builtin_let__\",[[\"___375\",[\"getter\",\"ctx\"]]],[\"__builtin_identity__\",\"___375\"]]],\"getters\"]],[\"___377\",[\"__builtin_starred__\",\"___376\"]],[\"___378\",[\"__builtin_list__\",\"stream_ptr\",\"___377\"]],[\"args\",[\"__builtin_identity__\",\"___378\"]],[\"___379\",[\"apply\",\"so_func\",\"args\"]],[\"___380\",[\"__builtin_identity__\",\"___379\"]]],[\"__builtin_identity__\",null]]]",stop_gradient:[false]} : (vec[tensor<4x65536x256xf16>,tensor<256x256xf16>,tensor<65536x256xf16>]) -> vec[tensor<4x65536x256xf16>]
+    (%5) = "builtin.split" (%4) {stop_gradient:[false]} : (vec[tensor<4x65536x256xf16>]) -> tensor<4x65536x256xf16>
+    (%6) = "pd_op.data" () {dtype:float16,name:"c",place:Place(undefined:0),shape:[65536,256],stop_gradient:[false]} : () -> tensor<65536x256xf16>
+    (%7) = "pd_op.data" () {dtype:float16,name:"x2",place:Place(undefined:0),shape:[4,65536,256],stop_gradient:[false]} : () -> tensor<4x65536x256xf16>
+    (%8) = "pd_op.data" () {dtype:float16,name:"y2",place:Place(undefined:0),shape:[256,256],stop_gradient:[false]} : () -> tensor<256x256xf16>
+    (%9) = "pd_op.data" () {dtype:float16,name:"b2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[false]} : () -> tensor<65536x256xf16>
+    (%10) = "pd_op.data" () {dtype:float16,name:"c2",place:Place(undefined:0),shape:[65536,256],stop_gradient:[false]} : () -> tensor<65536x256xf16>
+    (%11) = "builtin.combine" (%5, %8, %9, %10) {stop_gradient:[false]} : (tensor<4x65536x256xf16>, tensor<256x256xf16>, tensor<65536x256xf16>, tensor<65536x256xf16>) -> vec[tensor<4x65536x256xf16>,tensor<256x256xf16>,tensor<65536x256xf16>,tensor<65536x256xf16>]
+    (%12) = "pd_op.ap_unary" (%11) {code_module_lambda:"[\"lambda\",[],[\"__builtin_let__\",[[\"___225\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"void\"}]],[\"___226\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"void_ptr\"}]],[\"___227\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float16_ptr\"}]],[\"___228\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float16_ptr\"}]],[\"___229\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"float16_ptr\"}]],[\"___230\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___231\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___232\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___233\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float16_ptr\"}]],[\"___234\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float16_ptr\"}]],[\"___235\",[\"__builtin_list__\",\"___226\",\"___227\",\"___228\",\"___229\",\"___230\",\"___231\",\"___232\",\"___233\",\"___234\"]],[\"___236\",[\"FuncDeclare\",\"___225\",{\"str\":\"MatmulBinaryKernel\"},\"___235\"]],[\"___237\",[\"__builtin_list__\"]],[\"___238\",[\"__builtin_list__\"]],[\"___239\",[\"__builtin_PackedArgs__\",\"___237\",\"___238\"]],[\"___240\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"FileContent\"}]],[\"___241\",[\"___240\",{\"str\":\"nvcc -std=c++17 -O3 -Xcompiler=-fPIC -arch=sm_80 --expt-relaxed-constexpr -I /work/Paddle/Athena/tests/ap/matmul/cutlass/include -I /work/Paddle/Athena/tests/ap/matmul/cutlass/tools/util/include -I /work/Paddle/Athena/tests/ap/matmul -DCUTLASS_ENABLE_TENSOR_CORE_MMA=1 -DCUTLASS_DEBUG_TRACE_LEVEL=0  --shared matmul_binary_kernel.cu -o libmatmul_binary_kernel.so\"}]],[\"___242\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"FileContent\"}]],[\"___243\",[\"___242\",{\"str\":\"\n// auto generated codes\n#include <cuda.h>\n#include <cuda_fp16.h>\n#include <vector>\n\n#include \\"cutlass_matmul.cuh\\"\n\nnamespace ap {\n\ntemplate <typename T>\nstruct VariadicEpilogueFunctor {\n  struct Arguments {\n    int64_t input0_dim2;\n    const half* in_ptr_0;\n    const half* in_ptr_1;\n  };\n\n  // Note: need to support vectorized operation\n  __forceinline__ __host__ __device__\n  T operator()(T x, const Arguments& args, const MatrixCoord& coord) const {\n    T out;\n    float op1_out0 = static_cast<float>(args.in_ptr_0[(coord.row * args.input0_dim2 + coord.column)]);\n    float op4_out0 = static_cast<float>(args.in_ptr_1[(coord.row * args.input0_dim2 + coord.column)]);\n    float op6_out0 = static_cast<float>((x - op1_out0));\n    float op8_out0 = static_cast<float>(op6_out0 + op4_out0);\n    out = op8_out0;\n    return out;\n  }\n};\n\n}\n\nextern \\"C\\" {\n\nvoid MatmulBinaryKernel(void* stream_ptr, const half* input0, const half* input1, half* output, int64_t input0_dim0, int64_t input0_dim1, int64_t input0_dim2, const half* in_ptr_0, const half* in_ptr_1) {\n  std::vector<int64_t> input0_shape;\n  input0_shape.resize(3);\n  input0_shape[0] = input0_dim0;\n  input0_shape[1] = input0_dim1;\n  input0_shape[2] = input0_dim2;\n\n  std::vector<int64_t> input1_shape;\n  input1_shape.resize(2);\n  input1_shape[0] = input0_dim2;\n  input1_shape[1] = input0_dim2;\n\n  cudaStream_t* cuda_stream_ptr = reinterpret_cast<cudaStream_t*>(stream_ptr);\n  ap::GemmEpilogueParams params(\n      *cuda_stream_ptr, input0, input1, nullptr, output, input0_shape, input1_shape, std::vector<int64_t>{});\n\n  using ElementT = half;\n  using ElementComputeT = float;\n\n  typename ap::VariadicEpilogueFunctor<ElementComputeT>::Arguments epilogue_args;\n\n  epilogue_args.input0_dim2 = input0_dim2;\n  epilogue_args.in_ptr_0 = in_ptr_0;\n  epilogue_args.in_ptr_1 = in_ptr_1;\n\n  ap::CutlassMatmulAddVariadic<ElementT, ElementComputeT, ap::VariadicEpilogueFunctor>(params, epilogue_args);\n}\n}\n\n  \"}]],[\"___244\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"Directory\"}]],[\"___245\",[\"__builtin_list__\",{\"str\":\"make.sh\"},\"___241\"]],[\"___246\",[\"__builtin_list__\",{\"str\":\"matmul_binary_kernel.cu\"},\"___243\"]],[\"___247\",[\"___244\",\"___245\",\"___246\"]],[\"___248\",[\"BuiltinSerializableAttrMap\",\"___239\"]],[\"___249\",[\"__builtin_list__\",{\"str\":\"compile_cmd\"},{\"str\":\"sh make.sh\"}]],[\"___250\",[\"__builtin_list__\",{\"str\":\"nested_files\"},\"___247\"]],[\"___251\",[\"__builtin_list__\",{\"str\":\"others\"},\"___248\"]],[\"___252\",[\"__builtin_list__\",{\"str\":\"so_relative_path\"},{\"str\":\"libmatmul_binary_kernel.so\"}]],[\"___253\",[\"__builtin_list__\"]],[\"___254\",[\"__builtin_list__\",\"___249\",\"___250\",\"___251\",\"___252\"]],[\"___255\",[\"__builtin_PackedArgs__\",\"___253\",\"___254\"]],[\"___256\",[\"__builtin_list__\",\"___236\"]],[\"___257\",[\"Project\",\"___255\"]]],[\"CodeModule\",\"___256\",\"___257\"]]]",infer_meta_lambda:"[\"lambda\",[\"inputs\",\"outputs\"],[\"__builtin_let__\",[[\"___258\",[\"__builtin_getitem__\",\"outputs\",0]],[\"___259\",[\"__builtin_list__\",4,65536,256]],[\"___260\",[\"__builtin_setattr__\",\"___258\",{\"str\":\"dims\"}]],[\"___261\",[\"___260\",{\"str\":\"dims\"},\"___259\"]],[\"___262\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"float16\"}]],[\"___263\",[\"__builtin_setattr__\",\"___258\",{\"str\":\"dtype\"}]],[\"___264\",[\"___263\",{\"str\":\"dtype\"},\"___262\"]]],null]]",kernel_dispatch_const_data_lambda:"[\"lambda\",[],[\"__builtin_let__\",[[\"___265\",[\"__builtin_list__\",{\"str\":\"output\"},0]],[\"___266\",[\"__builtin_list__\"]],[\"___267\",[\"__builtin_list__\",\"___265\"]],[\"___268\",[\"__builtin_PackedArgs__\",\"___266\",\"___267\"]],[\"___269\",[\"__builtin_list__\",{\"str\":\"input0\"},0]],[\"___270\",[\"__builtin_list__\",{\"str\":\"input1\"},1]],[\"___271\",[\"__builtin_list__\",{\"str\":\"input2\"},2]],[\"___272\",[\"__builtin_list__\",{\"str\":\"input3\"},3]],[\"___273\",[\"__builtin_list__\"]],[\"___274\",[\"__builtin_list__\",\"___269\",\"___270\",\"___271\",\"___272\"]],[\"___275\",[\"__builtin_PackedArgs__\",\"___273\",\"___274\"]],[\"___276\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___192\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___193\",[\"__builtin_getitem__\",\"___192\",0]],[\"___194\",[\"__builtin_getattr__\",\"___193\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___194\"]]]]],[\"___277\",[\"__builtin_getattr__\",\"___276\",{\"str\":\"__function__\"}]],[\"___278\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___195\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___196\",[\"__builtin_getitem__\",\"___195\",1]],[\"___197\",[\"__builtin_getattr__\",\"___196\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___197\"]]]]],[\"___279\",[\"__builtin_getattr__\",\"___278\",{\"str\":\"__function__\"}]],[\"___280\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___198\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"outputs\"}]],[\"___199\",[\"__builtin_getitem__\",\"___198\",0]],[\"___200\",[\"__builtin_getattr__\",\"___199\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___200\"]]]]],[\"___281\",[\"__builtin_getattr__\",\"___280\",{\"str\":\"__function__\"}]],[\"___282\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___147\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___148\",[\"__builtin_getitem__\",\"___147\",0]],[\"___149\",[\"__builtin_getattr__\",\"___148\",{\"str\":\"shape\"}]],[\"___150\",[\"__builtin_getitem__\",\"___149\",0]],[\"___151\",[\"DataValue\",\"___150\"]],[\"___153\",[\"__builtin_getattr__\",\"___151\",{\"str\":\"cast\"}]],[\"___154\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___155\",[\"___153\",\"___154\"]],[\"___152\",[\"__builtin_identity__\",\"___155\"]]],[\"__builtin_identity__\",\"___152\"]]]]],[\"___283\",[\"__builtin_getattr__\",\"___282\",{\"str\":\"__function__\"}]],[\"___284\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___156\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___157\",[\"__builtin_getitem__\",\"___156\",0]],[\"___158\",[\"__builtin_getattr__\",\"___157\",{\"str\":\"shape\"}]],[\"___159\",[\"__builtin_getitem__\",\"___158\",1]],[\"___160\",[\"DataValue\",\"___159\"]],[\"___162\",[\"__builtin_getattr__\",\"___160\",{\"str\":\"cast\"}]],[\"___163\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___164\",[\"___162\",\"___163\"]],[\"___161\",[\"__builtin_identity__\",\"___164\"]]],[\"__builtin_identity__\",\"___161\"]]]]],[\"___285\",[\"__builtin_getattr__\",\"___284\",{\"str\":\"__function__\"}]],[\"___286\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___165\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___166\",[\"__builtin_getitem__\",\"___165\",0]],[\"___167\",[\"__builtin_getattr__\",\"___166\",{\"str\":\"shape\"}]],[\"___168\",[\"__builtin_getitem__\",\"___167\",2]],[\"___169\",[\"DataValue\",\"___168\"]],[\"___171\",[\"__builtin_getattr__\",\"___169\",{\"str\":\"cast\"}]],[\"___172\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___173\",[\"___171\",\"___172\"]],[\"___170\",[\"__builtin_identity__\",\"___173\"]]],[\"__builtin_identity__\",\"___170\"]]]]],[\"___287\",[\"__builtin_getattr__\",\"___286\",{\"str\":\"__function__\"}]],[\"___288\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___210\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___211\",[\"__builtin_getitem__\",\"___210\",2]],[\"___212\",[\"__builtin_getattr__\",\"___211\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___212\"]]]]],[\"___289\",[\"__builtin_getattr__\",\"___288\",{\"str\":\"__function__\"}]],[\"___290\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___222\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___223\",[\"__builtin_getitem__\",\"___222\",3]],[\"___224\",[\"__builtin_getattr__\",\"___223\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___224\"]]]]],[\"___291\",[\"__builtin_getattr__\",\"___290\",{\"str\":\"__function__\"}]],[\"___292\",[\"__builtin_list__\",0,1,2,3]],[\"___293\",[\"BuiltinSerializableAttrMap\",\"___275\"]],[\"___294\",[\"__builtin_list__\",0]],[\"___295\",[\"BuiltinSerializableAttrMap\",\"___268\"]],[\"___296\",[\"__builtin_list__\",\"___277\",\"___279\",\"___281\",\"___283\",\"___285\",\"___287\",\"___289\",\"___291\"]],[\"___297\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_input_indexes_slices\"},\"___292\"]],[\"___298\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_input_name_to_index\"},\"___293\"]],[\"___299\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_output_indexes_slices\"},\"___294\"]],[\"___300\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_output_name_to_index\"},\"___295\"]],[\"___301\",[\"__builtin_list__\",{\"str\":\"kernel_args_getters\"},\"___296\"]],[\"___302\",[\"__builtin_list__\"]],[\"___303\",[\"__builtin_list__\",\"___297\",\"___298\",\"___299\",\"___300\",\"___301\"]],[\"___304\",[\"__builtin_PackedArgs__\",\"___302\",\"___303\"]]],[\"BuiltinSerializableAttrMap\",\"___304\"]]]",num_outputs:1,rnel_dispatch_lambda:"[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___368\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"get_so_function\"}]],[\"___369\",[\"___368\",{\"str\":\"MatmulBinaryKernel\"}]],[\"so_func\",[\"__builtin_identity__\",\"___369\"]],[\"___371\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"device_ctx\"}]],[\"___370\",[\"__builtin_getattr__\",\"___371\",{\"str\":\"get_stream_addr_as_void_ptr\"}]],[\"___372\",[\"___370\"]],[\"stream_ptr\",[\"__builtin_identity__\",\"___372\"]],[\"___374\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"kernel_dispatch_const_data\"}]],[\"___373\",[\"__builtin_getattr__\",\"___374\",{\"str\":\"kernel_args_getters\"}]],[\"getters\",[\"__builtin_identity__\",\"___373\"]],[\"___376\",[\"map\",[\"lambda\",[\"getter\"],[\"__builtin_let__\",[[\"___375\",[\"getter\",\"ctx\"]]],[\"__builtin_identity__\",\"___375\"]]],\"getters\"]],[\"___377\",[\"__builtin_starred__\",\"___376\"]],[\"___378\",[\"__builtin_list__\",\"stream_ptr\",\"___377\"]],[\"args\",[\"__builtin_identity__\",\"___378\"]],[\"___379\",[\"apply\",\"so_func\",\"args\"]],[\"___380\",[\"__builtin_identity__\",\"___379\"]]],[\"__builtin_identity__\",null]]]",stop_gradient:[false]} : (vec[tensor<4x65536x256xf16>,tensor<256x256xf16>,tensor<65536x256xf16>,tensor<65536x256xf16>]) -> vec[tensor<4x65536x256xf16>]
+    (%13) = "builtin.split" (%12) {stop_gradient:[false]} : (vec[tensor<4x65536x256xf16>]) -> tensor<4x65536x256xf16>
+    () = "builtin.shadow_output" (%13) {output_name:"output_0"} : (tensor<4x65536x256xf16>) -> 
+}
+I0228 21:08:12.349808 111585 add_cinn_pass.cc:340] Time of lowering and compiling program: ***** [ 0 ] ***** seconds.
+I0228 21:08:12.349828 111585 add_cinn_pass.cc:344] Number of ops in the original program is: 14, after lowering it becomes: 15. (compression ratio: 15/14 = 1.07143)
+I0228 21:08:12.352630 111585 pir_interpreter.cc:1604] New Executor is Running ...
+I0228 21:08:12.353247 111585 pir_interpreter.cc:1625] pir interpreter is running by trace mode ...
+/work/Paddle/Athena/tests/ap/paddle-tests/utils.py:53: RuntimeWarning: divide by zero encountered in divide
+  relative_error = np.abs(diff / (out_2_flatten + 1e-8))
+F
+======================================================================
+FAIL: test_eval_symbolic (__main__.TestAPMatmulBinary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/Paddle/Athena/tests/ap/paddle-tests/test_matmul_triple.py", line 110, in test_eval_symbolic
+    utils.check_result(self.dtype, cinn_out.numpy(), dy_out.numpy())
+  File "/work/Paddle/Athena/tests/ap/paddle-tests/utils.py", line 78, in check_result
+    np.testing.assert_allclose(
+  File "/work/Paddle/env3.10/lib/python3.10/site-packages/numpy/testing/_private/utils.py", line 1714, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/work/Paddle/env3.10/lib/python3.10/site-packages/numpy/testing/_private/utils.py", line 920, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0.01, atol=0.01
+
+Mismatched elements: 1307129 / 67108864 (1.95%)
+Max absolute difference among violations: 0.5625
+Max relative difference among violations: 2136.
+ ACTUAL: array([[[ 1.8281e+01, -2.8650e+02,  3.5500e+02, ..., -3.4600e+02,
+          1.9225e+02,  2.3625e+02],
+        [ 3.5650e+02,  1.5400e+02,  2.5125e+02, ..., -3.7175e+02,...
+ DESIRED: array([[[ 1.8516e+01, -2.8700e+02,  3.5500e+02, ..., -3.4600e+02,
+          1.9212e+02,  2.3638e+02],
+        [ 3.5650e+02,  1.5400e+02,  2.5125e+02, ..., -3.7175e+02,...
+
+----------------------------------------------------------------------
+Ran 1 test in 39.311s
+
+FAILED (failures=1)
+all prim enabled:  True
+-- max difference     : 2.0, -1166.0 vs -1164.0
+-- max relative error : inf, 0.10595703125 vs 0.0

@@ -1,0 +1,884 @@
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+E0228 11:05:12.775642 52515 ir_helper_method_class.cc:386] REGISTER_AP_BUILTIN_MODULE ir_tools
+W0228 11:05:13.797705 52515 gpu_resources.cc:119] Please NOTE: device: 0, GPU Compute Capability: 8.0, Driver API Version: 12.0, Runtime API Version: 11.8
+W0228 11:05:13.798521 52515 gpu_resources.cc:164] device: 0, cuDNN Version: 8.6.
+W0228 11:05:16.158440 52515 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+I0228 11:05:16.160564 52515 build_cinn_pass.cc:68] Time of building group ops (size=47): 0 min 0 s 1 ms
+I0228 11:05:16.166602 52515 add_cinn_pass.cc:326] FusionOp count before lowering : *****[ 7 ]*****
+I0228 11:05:16.166640 52515 add_cinn_pass.cc:263] Enable AP Generic DRR Pass
+E0228 11:05:16.214334 52515 add_cinn_pass.cc:230] before ApLowerFusionOpAbstractDrrPass:
+{
+    (%0) = "pd_op.data" () {dtype:float32,name:"t0",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"t1",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"t2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "pd_op.data" () {dtype:float32,name:"t3",place:Place(undefined:0),shape:[256,2],stop_gradient:[true]} : () -> tensor<256x2xf32>
+    (%4) = "pd_op.data" () {dtype:float32,name:"t4",place:Place(undefined:0),shape:[2],stop_gradient:[true]} : () -> tensor<2xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"t5",place:Place(undefined:0),shape:[256,256],stop_gradient:[true]} : () -> tensor<256x256xf32>
+    (%6) = "pd_op.data" () {dtype:float32,name:"t6",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%7) = "pd_op.data" () {dtype:float32,name:"t7",place:Place(undefined:0),shape:[256,256],stop_gradient:[true]} : () -> tensor<256x256xf32>
+    (%8) = "pd_op.data" () {dtype:float32,name:"t8",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%9) = "pd_op.data" () {dtype:float32,name:"t9",place:Place(undefined:0),shape:[256,4],stop_gradient:[true]} : () -> tensor<256x4xf32>
+    (%10) = "pd_op.data" () {dtype:float32,name:"t10",place:Place(undefined:0),shape:[4],stop_gradient:[true]} : () -> tensor<4xf32>
+    (%11) = "cinn_op.fusion" () -> tensor<1x6804x1xf32> {
+        (%12) = "cinn_op.reduce_sum" (%0) {axis:[2],dtype:float32,keepdim:true,stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x1xf32>
+        () = "cf.yield" (%12) {} : (tensor<1x6804x1xf32>) -> 
+    }
+    (%13) = "cinn_op.fusion" () -> tensor<1x6804x256xf32> {
+        (%14) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,1],stop_gradient:[true],value:256} : () -> tensor<1x6804x1xf32>
+        (%15) = "pd_op.divide" (%11, %14) {stop_gradient:[true]} : (tensor<1x6804x1xf32>, tensor<1x6804x1xf32>) -> tensor<1x6804x1xf32>
+        (%16) = "cinn_op.broadcast" (%15) {broadcast_axes:[0,1,2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<1x6804x1xf32>) -> tensor<1x6804x256xf32>
+        (%17) = "pd_op.subtract" (%0, %16) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%18) = "pd_op.multiply" (%17, %17) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%19) = "cinn_op.reduce_sum" (%18) {axis:[2],dtype:float32,keepdim:true,stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x1xf32>
+        (%20) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,1],stop_gradient:[true],value:256} : () -> tensor<1x6804x1xf32>
+        (%21) = "pd_op.divide" (%19, %20) {stop_gradient:[true]} : (tensor<1x6804x1xf32>, tensor<1x6804x1xf32>) -> tensor<1x6804x1xf32>
+        (%22) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,1],stop_gradient:[true],value:1e-05} : () -> tensor<1x6804x1xf32>
+        (%23) = "pd_op.add" (%21, %22) {stop_gradient:[true]} : (tensor<1x6804x1xf32>, tensor<1x6804x1xf32>) -> tensor<1x6804x1xf32>
+        (%24) = "pd_op.rsqrt" (%23) {stop_gradient:[true]} : (tensor<1x6804x1xf32>) -> tensor<1x6804x1xf32>
+        (%25) = "cinn_op.broadcast" (%24) {broadcast_axes:[0,1,2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<1x6804x1xf32>) -> tensor<1x6804x256xf32>
+        (%26) = "pd_op.multiply" (%17, %25) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%27) = "cinn_op.broadcast" (%1) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+        (%28) = "pd_op.multiply" (%26, %27) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%29) = "cinn_op.broadcast" (%2) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+        (%30) = "pd_op.add" (%28, %29) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%31) = "cinn_op.yield_store" (%30) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        () = "cf.yield" (%31) {} : (tensor<1x6804x256xf32>) -> 
+    }
+    (%32) = "cinn_op.fusion" () -> tensor<256x258xf32> {
+        (%33) = "cinn_op.concat" (%3, %5) {axis:1,stop_gradient:[true]} : (tensor<256x2xf32>, tensor<256x256xf32>) -> tensor<256x258xf32>
+        (%34) = "cinn_op.yield_store" (%33) {} : (tensor<256x258xf32>) -> tensor<256x258xf32>
+        () = "cf.yield" (%34) {} : (tensor<256x258xf32>) -> 
+    }
+    (%35) = "pd_op.matmul" (%13, %32) {stop_gradient:[true],transpose_x:false,transpose_y:false} : (tensor<1x6804x256xf32>, tensor<256x258xf32>) -> tensor<1x6804x258xf32>
+    (%36) = "cinn_op.fusion" () -> tensor<1x6804x2xf32> {
+        (%37) = "cinn_op.slice" (%35) {axes:[2],decrease_axis:[],ends:[2],infer_flags:[],starts:[0],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x2xf32>
+        (%38) = "cinn_op.broadcast" (%4) {broadcast_axes:[2],out_shape:[1,6804,2],stop_gradient:[true]} : (tensor<2xf32>) -> tensor<1x6804x2xf32>
+        (%39) = "pd_op.add" (%37, %38) {stop_gradient:[true]} : (tensor<1x6804x2xf32>, tensor<1x6804x2xf32>) -> tensor<1x6804x2xf32>
+        (%40) = "cinn_op.yield_store" (%39) {} : (tensor<1x6804x2xf32>) -> tensor<1x6804x2xf32>
+        () = "cf.yield" (%40) {} : (tensor<1x6804x2xf32>) -> 
+    }
+    (%41, %42) = "cinn_op.fusion" () -> tensor<1x6804x256xf32>, tensor<1x6804x256xf32> {
+        (%43) = "cinn_op.slice" (%35) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+        (%44) = "cinn_op.yield_store" (%43) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%45) = "cinn_op.broadcast" (%6) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+        (%46) = "pd_op.add" (%43, %45) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%47) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true],value:0} : () -> tensor<1x6804x256xf32>
+        (%48) = "pd_op.maximum" (%46, %47) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%49) = "cinn_op.yield_store" (%48) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        () = "cf.yield" (%44, %49) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+    }
+    (%50) = "pd_op.matmul" (%42, %7) {stop_gradient:[true],transpose_x:false,transpose_y:false} : (tensor<1x6804x256xf32>, tensor<256x256xf32>) -> tensor<1x6804x256xf32>
+    (%51) = "cinn_op.fusion" () -> tensor<1x6804x256xf32> {
+        (%52) = "cinn_op.broadcast" (%8) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+        (%53) = "pd_op.add" (%50, %52) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%54) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true],value:0} : () -> tensor<1x6804x256xf32>
+        (%55) = "pd_op.maximum" (%53, %54) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%56) = "cinn_op.yield_store" (%55) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        () = "cf.yield" (%56) {} : (tensor<1x6804x256xf32>) -> 
+    }
+    (%57) = "pd_op.matmul" (%51, %9) {stop_gradient:[true],transpose_x:false,transpose_y:false} : (tensor<1x6804x256xf32>, tensor<256x4xf32>) -> tensor<1x6804x4xf32>
+    (%58) = "cinn_op.fusion" () -> tensor<1x6804x4xf32> {
+        (%59) = "cinn_op.broadcast" (%10) {broadcast_axes:[2],out_shape:[1,6804,4],stop_gradient:[true]} : (tensor<4xf32>) -> tensor<1x6804x4xf32>
+        (%60) = "pd_op.add" (%57, %59) {stop_gradient:[true]} : (tensor<1x6804x4xf32>, tensor<1x6804x4xf32>) -> tensor<1x6804x4xf32>
+        (%61) = "cinn_op.yield_store" (%60) {} : (tensor<1x6804x4xf32>) -> tensor<1x6804x4xf32>
+        () = "cf.yield" (%61) {} : (tensor<1x6804x4xf32>) -> 
+    }
+    () = "builtin.shadow_output" (%13) {output_name:"output_0"} : (tensor<1x6804x256xf32>) -> 
+    () = "builtin.shadow_output" (%36) {output_name:"output_1"} : (tensor<1x6804x2xf32>) -> 
+    () = "builtin.shadow_output" (%41) {output_name:"output_2"} : (tensor<1x6804x256xf32>) -> 
+    () = "builtin.shadow_output" (%42) {output_name:"output_3"} : (tensor<1x6804x256xf32>) -> 
+    () = "builtin.shadow_output" (%50) {output_name:"output_4"} : (tensor<1x6804x256xf32>) -> 
+    () = "builtin.shadow_output" (%51) {output_name:"output_5"} : (tensor<1x6804x256xf32>) -> 
+    () = "builtin.shadow_output" (%57) {output_name:"output_6"} : (tensor<1x6804x4xf32>) -> 
+    () = "builtin.shadow_output" (%58) {output_name:"output_7"} : (tensor<1x6804x4xf32>) -> 
+}
+E0228 11:05:16.215374 52515 builtin_functions.cc:121] Print
+....begin copy program
+E0228 11:05:16.216260 52515 builtin_functions.cc:121] Print
+....exit copy program
+E0228 11:05:16.216351 52515 builtin_functions.cc:121] Print
+before-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%2) = "cinn_op.slice" (%0) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%3) = "cinn_op.yield_store" (%2) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "cinn_op.broadcast" (%1) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.add" (%2, %4) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%6) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true],value:0} : () -> tensor<1x6804x256xf32>
+    (%7) = "pd_op.maximum" (%5, %6) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%8) = "cinn_op.yield_store" (%7) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    () = "cf.yield" (%3, %8) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.217554 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.217569 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.218297 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.218309 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.218592 52515 builtin_functions.cc:121] Print
+after-init-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<1x6804x258xf32>) -> tensor<1x6804x258xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "cinn_op.slice" (%1) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "cinn_op.yield_store" (%3) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "cinn_op.broadcast" (%2) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+    (%6) = "pd_op.add" (%3, %5) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%7) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true],value:0} : () -> tensor<1x6804x256xf32>
+    (%8) = "pd_op.maximum" (%6, %7) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%9) = "cinn_op.yield_store" (%8) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%10) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%4, %10) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.224761 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 11:05:16.224774 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 11:05:16.224895 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 11:05:16.224915 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 11:05:16.224932 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 11:05:16.224992 52515 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_maximum matched.
+I0228 11:05:16.224997 52515 ap_lower_fusion_op_pass.cc:308] drr: pd_op_maximum matched.
+I0228 11:05:16.225085 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 11:05:16.225091 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 11:05:16.225136 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.225158 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.225178 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.225198 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.225215 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.225239 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.225263 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 11:05:16.225289 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 11:05:16.225361 52515 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_right_full_add matched.
+I0228 11:05:16.225368 52515 ap_lower_fusion_op_pass.cc:308] drr: pd_op_right_full_add matched.
+I0228 11:05:16.225418 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.225440 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.225458 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.225477 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.225495 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.225512 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.225534 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.225558 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 11:05:16.225577 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.225595 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.225612 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.225628 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.225646 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.225664 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.225682 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+E0228 11:05:16.225767 52515 builtin_functions.cc:121] Print
+after-apply-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<1x6804x258xf32>) -> tensor<1x6804x258xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "cinn_op.slice" (%1) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+E0228 11:05:16.225859 52515 builtin_functions.cc:121] Print
+after-remove-data-op-pair-pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<1x6804x258xf32>) -> tensor<1x6804x258xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "cinn_op.slice" (%1) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.226693 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.226716 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.226740 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.226760 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.226776 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.226780 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+E0228 11:05:16.226835 52515 builtin_functions.cc:121] Print
+after-remove_data_op2sum_op2data_op_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<1x6804x258xf32>) -> tensor<1x6804x258xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "cinn_op.slice" (%1) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.227627 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.227650 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.227675 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.227694 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.227710 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.227715 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.227733 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.227747 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.227768 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+E0228 11:05:16.227830 52515 builtin_functions.cc:121] Print
+after-remove-input-output-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<1x6804x258xf32>) -> tensor<1x6804x258xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "cinn_op.slice" (%1) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+E0228 11:05:16.228210 52515 builtin_functions.cc:121] Print
+....begin copy program
+E0228 11:05:16.229230 52515 builtin_functions.cc:121] Print
+....exit copy program
+E0228 11:05:16.229358 52515 builtin_functions.cc:121] Print
+before-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    (%2) = "cinn_op.broadcast" (%0) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+    (%3) = "pd_op.add" (%1, %2) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true],value:0} : () -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.maximum" (%3, %4) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%6) = "cinn_op.yield_store" (%5) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    () = "cf.yield" (%6) {} : (tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.230386 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.230397 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.230526 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.230533 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.230748 52515 builtin_functions.cc:121] Print
+after-init-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    (%2) = "ap_op.down_spider" (%1) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%3) = "cinn_op.broadcast" (%0) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.add" (%2, %3) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true],value:0} : () -> tensor<1x6804x256xf32>
+    (%6) = "pd_op.maximum" (%4, %5) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%7) = "cinn_op.yield_store" (%6) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%8) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%7, %8) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.236932 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 11:05:16.236946 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 11:05:16.237007 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 11:05:16.237025 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 11:05:16.237113 52515 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_maximum matched.
+I0228 11:05:16.237118 52515 ap_lower_fusion_op_pass.cc:308] drr: pd_op_maximum matched.
+I0228 11:05:16.237202 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 11:05:16.237208 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 11:05:16.237253 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.237275 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.237313 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.237332 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.237351 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.237490 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_broadcast_up_spider matched.
+I0228 11:05:16.237496 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_broadcast_up_spider matched.
+I0228 11:05:16.237650 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 11:05:16.237730 52515 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_right_full_add matched.
+I0228 11:05:16.237735 52515 ap_lower_fusion_op_pass.cc:308] drr: pd_op_right_full_add matched.
+I0228 11:05:16.237788 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.237810 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.237829 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.237848 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.237867 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.237885 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.237905 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.237924 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.237943 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.237962 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.237979 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.238051 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 11:05:16.238056 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 11:05:16.238147 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 11:05:16.238154 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 11:05:16.238195 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.238215 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.238289 52515 ap_lower_fusion_op_pass.cc:2434] drr: left_down_spider_up_spider matched.
+I0228 11:05:16.238296 52515 ap_lower_fusion_op_pass.cc:308] drr: left_down_spider_up_spider matched.
+I0228 11:05:16.238339 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.238359 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.238379 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.238397 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.238415 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.238435 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.238453 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.238472 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.238490 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.238512 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+E0228 11:05:16.238581 52515 builtin_functions.cc:121] Print
+after-apply-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    (%2) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1]} : () -> tensor<2xi64>
+    (%3) = "pd_op.sum" (%1, %2) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<2xi64>) -> tensor<256xf32>
+    () = "ap_op.up_spider" (%3, %0) {} : (tensor<256xf32>, tensor<256xf32>) -> 
+    (%4) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%1, %4) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+E0228 11:05:16.238670 52515 builtin_functions.cc:121] Print
+after-remove-data-op-pair-pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    (%2) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1]} : () -> tensor<2xi64>
+    (%3) = "pd_op.sum" (%1, %2) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<2xi64>) -> tensor<256xf32>
+    () = "ap_op.up_spider" (%3, %0) {} : (tensor<256xf32>, tensor<256xf32>) -> 
+    (%4) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%1, %4) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.239509 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.239533 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.239754 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.239761 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.239826 52515 builtin_functions.cc:121] Print
+after-remove_data_op2sum_op2data_op_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%0, %1) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.240617 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.240731 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.240741 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.240759 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.240845 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.240851 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.240885 52515 builtin_functions.cc:121] Print
+after-remove-input-output-access_topo_pass {
+}
+I0228 11:05:16.241094 52515 ap_lower_fusion_op_pass.cc:2299] drr: matmul_binary_fusion matched.
+I0228 11:05:16.241101 52515 ap_lower_fusion_op_pass.cc:308] drr: matmul_binary_fusion matched.
+I0228 11:05:16.243176 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.243191 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.243351 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.243360 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.244040 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.244051 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.244872 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.244885 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.251080 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 11:05:16.251168 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_load_from_global matched.
+I0228 11:05:16.251173 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_load_from_global matched.
+I0228 11:05:16.251293 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 11:05:16.251299 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 11:05:16.251353 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 11:05:16.251370 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 11:05:16.251451 52515 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_maximum matched.
+I0228 11:05:16.251456 52515 ap_lower_fusion_op_pass.cc:308] drr: pd_op_maximum matched.
+I0228 11:05:16.251540 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 11:05:16.251547 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 11:05:16.251595 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 11:05:16.251701 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_broadcast_up_spider matched.
+I0228 11:05:16.251708 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_broadcast_up_spider matched.
+I0228 11:05:16.251839 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 11:05:16.251917 52515 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_right_full_add matched.
+I0228 11:05:16.251922 52515 ap_lower_fusion_op_pass.cc:308] drr: pd_op_right_full_add matched.
+I0228 11:05:16.251977 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.252000 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 11:05:16.252022 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.252043 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.252063 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.252079 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.252097 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.252168 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 11:05:16.252173 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 11:05:16.252264 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 11:05:16.252270 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 11:05:16.252322 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 11:05:16.252351 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.252370 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.252389 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.252408 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.252425 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.253584 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.253739 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.253746 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.254426 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.254438 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.254591 52515 builtin_functions.cc:121] Print
+index_func_unique_id2index_program:
+ OrderedDict([[input2, {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1]} : () -> tensor<2xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<2xi64>) -> tensor<256xf32>
+    () = "cf.yield" (%2) {} : (tensor<256xf32>) -> 
+}
+]])
+I0228 11:05:16.255062 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.255074 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.255894 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.255972 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.255978 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.256772 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.256784 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.256961 52515 builtin_functions.cc:121] Print
+mut_program: {
+    (%0) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%1) = "ap_op.load_from_global" (%0) {index_func_unique_id:"input2"} : (tensor<256xf32>) -> tensor<256xf32>
+    (%2) = "ap_op.load_from_register" () {name:"mm_out",register_var_name:"x",symbolic_shape_or_data:,type:tensor<1x6804x256xf32>} : () -> tensor<1x6804x256xf32>
+    (%3) = "cinn_op.broadcast" (%1) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.add" (%2, %3) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true],value:0} : () -> tensor<1x6804x256xf32>
+    (%6) = "pd_op.maximum" (%4, %5) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%7) = "cinn_op.yield_store" (%6) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    () = "ap_op.store_to_register" (%7) {name:"output",register_var_name:"out"} : (tensor<1x6804x256xf32>) -> 
+}
+E0228 11:05:16.257753 52515 builtin_functions.cc:121] Print
+-- kargs_name_pair_list: [[<InTensorDataPtrKernelArgId object at 0x55a5dda0>, input0], [<InTensorDataPtrKernelArgId object at 0x55a63140>, input1], [<OutTensorDataPtrKernelArgId object at 0x55c25630>, output], [1, input0_dim0], [6804, input0_dim1], [256, input0_dim2], [256, input1_dim0], [256, input1_dim1]]
+E0228 11:05:16.260664 52515 builtin_functions.cc:121] Print
+-- matmul_binary_epilogue_code:
+ float op1_out0 = (args.in_ptr_0[(coord.column)]);
+    float op4_out0 = (x + op1_out0);
+    float op5_out0 = (0.000000);
+    float op6_out0 = (((op4_out0 >= op5_out0) ? (op4_out0) : (op5_out0)));
+    out = op6_out0;
+E0228 11:05:16.260680 52515 builtin_functions.cc:121] Print
+----begin making project
+E0228 11:05:16.261447 52515 builtin_functions.cc:121] Print
+----end making project
+E0228 11:05:16.262684 52515 builtin_functions.cc:121] Print
+....begin copy program
+W0228 11:05:16.263648 52515 shape_analysis.cc:620] pd_op.ap_unary DOES NOT have InferSymbolicShapeInterface!
+E0228 11:05:16.263716 52515 builtin_functions.cc:121] Print
+....exit copy program
+E0228 11:05:16.263759 52515 builtin_functions.cc:121] Print
+before-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[4],stop_gradient:[true]} : () -> tensor<4xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,4],stop_gradient:[true]} : () -> tensor<1x6804x4xf32>
+    (%2) = "cinn_op.broadcast" (%0) {broadcast_axes:[2],out_shape:[1,6804,4],stop_gradient:[true]} : (tensor<4xf32>) -> tensor<1x6804x4xf32>
+    (%3) = "pd_op.add" (%1, %2) {stop_gradient:[true]} : (tensor<1x6804x4xf32>, tensor<1x6804x4xf32>) -> tensor<1x6804x4xf32>
+    (%4) = "cinn_op.yield_store" (%3) {} : (tensor<1x6804x4xf32>) -> tensor<1x6804x4xf32>
+    () = "cf.yield" (%4) {} : (tensor<1x6804x4xf32>) -> 
+}
+I0228 11:05:16.264796 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.264808 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.264940 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.264947 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.265153 52515 builtin_functions.cc:121] Print
+after-init-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[4],stop_gradient:[true]} : () -> tensor<4xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,4],stop_gradient:[true]} : () -> tensor<1x6804x4xf32>
+    (%2) = "ap_op.down_spider" (%1) {} : (tensor<1x6804x4xf32>) -> tensor<1x6804x4xf32>
+    (%3) = "cinn_op.broadcast" (%0) {broadcast_axes:[2],out_shape:[1,6804,4],stop_gradient:[true]} : (tensor<4xf32>) -> tensor<1x6804x4xf32>
+    (%4) = "pd_op.add" (%2, %3) {stop_gradient:[true]} : (tensor<1x6804x4xf32>, tensor<1x6804x4xf32>) -> tensor<1x6804x4xf32>
+    (%5) = "cinn_op.yield_store" (%4) {} : (tensor<1x6804x4xf32>) -> tensor<1x6804x4xf32>
+    (%6) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,4],stop_gradient:[true]} : () -> tensor<1x6804x4xf32>
+    () = "ap_op.up_spider" (%5, %6) {} : (tensor<1x6804x4xf32>, tensor<1x6804x4xf32>) -> 
+}
+I0228 11:05:16.271368 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 11:05:16.271381 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 11:05:16.271473 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 11:05:16.271479 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 11:05:16.271534 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.271559 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.271576 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.271595 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.271615 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.271687 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 11:05:16.271692 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 11:05:16.271839 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_broadcast_up_spider matched.
+I0228 11:05:16.271847 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_broadcast_up_spider matched.
+I0228 11:05:16.271986 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.272009 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.272084 52515 ap_lower_fusion_op_pass.cc:2434] drr: left_down_spider_up_spider matched.
+I0228 11:05:16.272089 52515 ap_lower_fusion_op_pass.cc:308] drr: left_down_spider_up_spider matched.
+I0228 11:05:16.272135 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.272156 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.272174 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.272193 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.272212 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.272231 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.272249 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.272269 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.272296 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.272316 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+E0228 11:05:16.272385 52515 builtin_functions.cc:121] Print
+after-apply-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[4],stop_gradient:[true]} : () -> tensor<4xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,4],stop_gradient:[true]} : () -> tensor<1x6804x4xf32>
+    (%2) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1]} : () -> tensor<2xi64>
+    (%3) = "pd_op.sum" (%1, %2) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<1x6804x4xf32>, tensor<2xi64>) -> tensor<4xf32>
+    () = "ap_op.up_spider" (%3, %0) {} : (tensor<4xf32>, tensor<4xf32>) -> 
+    (%4) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,4],stop_gradient:[true]} : () -> tensor<1x6804x4xf32>
+    () = "ap_op.up_spider" (%1, %4) {} : (tensor<1x6804x4xf32>, tensor<1x6804x4xf32>) -> 
+}
+E0228 11:05:16.272477 52515 builtin_functions.cc:121] Print
+after-remove-data-op-pair-pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[4],stop_gradient:[true]} : () -> tensor<4xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,4],stop_gradient:[true]} : () -> tensor<1x6804x4xf32>
+    (%2) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1]} : () -> tensor<2xi64>
+    (%3) = "pd_op.sum" (%1, %2) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<1x6804x4xf32>, tensor<2xi64>) -> tensor<4xf32>
+    () = "ap_op.up_spider" (%3, %0) {} : (tensor<4xf32>, tensor<4xf32>) -> 
+    (%4) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,4],stop_gradient:[true]} : () -> tensor<1x6804x4xf32>
+    () = "ap_op.up_spider" (%1, %4) {} : (tensor<1x6804x4xf32>, tensor<1x6804x4xf32>) -> 
+}
+I0228 11:05:16.273324 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.273347 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.273569 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.273576 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.273641 52515 builtin_functions.cc:121] Print
+after-remove_data_op2sum_op2data_op_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,4],stop_gradient:[true]} : () -> tensor<1x6804x4xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,4],stop_gradient:[true]} : () -> tensor<1x6804x4xf32>
+    () = "ap_op.up_spider" (%0, %1) {} : (tensor<1x6804x4xf32>, tensor<1x6804x4xf32>) -> 
+}
+I0228 11:05:16.274453 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.274570 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.274580 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.274600 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.274683 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.274688 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.274724 52515 builtin_functions.cc:121] Print
+after-remove-input-output-access_topo_pass {
+}
+I0228 11:05:16.274952 52515 ap_lower_fusion_op_pass.cc:2299] drr: matmul_binary_fusion matched.
+I0228 11:05:16.274958 52515 ap_lower_fusion_op_pass.cc:308] drr: matmul_binary_fusion matched.
+W0228 11:05:16.275028 52515 shape_analysis.cc:620] pd_op.ap_unary DOES NOT have InferSymbolicShapeInterface!
+W0228 11:05:16.276067 52515 shape_analysis.cc:620] pd_op.ap_unary DOES NOT have InferSymbolicShapeInterface!
+I0228 11:05:16.277024 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.277036 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.277175 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.277184 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.277889 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.277900 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.278741 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.278755 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.285101 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 11:05:16.285189 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_load_from_global matched.
+I0228 11:05:16.285195 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_load_from_global matched.
+I0228 11:05:16.285315 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 11:05:16.285322 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 11:05:16.285404 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 11:05:16.285410 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 11:05:16.285463 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 11:05:16.285535 52515 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 11:05:16.285542 52515 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 11:05:16.285663 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_broadcast_up_spider matched.
+I0228 11:05:16.285669 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_broadcast_up_spider matched.
+I0228 11:05:16.285800 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_load_from_global mismatched.
+I0228 11:05:16.285825 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.285843 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.285862 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.285882 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.285902 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.287070 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.287226 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.287233 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.287905 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.287919 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.288050 52515 builtin_functions.cc:121] Print
+index_func_unique_id2index_program:
+ OrderedDict([[input2, {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,4],stop_gradient:[true]} : () -> tensor<1x6804x4xf32>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1]} : () -> tensor<2xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<1x6804x4xf32>, tensor<2xi64>) -> tensor<4xf32>
+    () = "cf.yield" (%2) {} : (tensor<4xf32>) -> 
+}
+]])
+I0228 11:05:16.288539 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.288551 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.289301 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.289378 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.289384 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.290000 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.290012 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.290130 52515 builtin_functions.cc:121] Print
+mut_program: {
+    (%0) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[4],stop_gradient:[true]} : () -> tensor<4xf32>
+    (%1) = "ap_op.load_from_global" (%0) {index_func_unique_id:"input2"} : (tensor<4xf32>) -> tensor<4xf32>
+    (%2) = "ap_op.load_from_register" () {name:"mm_out",register_var_name:"x",symbolic_shape_or_data:,type:tensor<1x6804x4xf32>} : () -> tensor<1x6804x4xf32>
+    (%3) = "cinn_op.broadcast" (%1) {broadcast_axes:[2],out_shape:[1,6804,4],stop_gradient:[true]} : (tensor<4xf32>) -> tensor<1x6804x4xf32>
+    (%4) = "pd_op.add" (%2, %3) {stop_gradient:[true]} : (tensor<1x6804x4xf32>, tensor<1x6804x4xf32>) -> tensor<1x6804x4xf32>
+    (%5) = "cinn_op.yield_store" (%4) {} : (tensor<1x6804x4xf32>) -> tensor<1x6804x4xf32>
+    () = "ap_op.store_to_register" (%5) {name:"output",register_var_name:"out"} : (tensor<1x6804x4xf32>) -> 
+}
+E0228 11:05:16.290860 52515 builtin_functions.cc:121] Print
+-- kargs_name_pair_list: [[<InTensorDataPtrKernelArgId object at 0x55d5e050>, input0], [<InTensorDataPtrKernelArgId object at 0x55d99120>, input1], [<OutTensorDataPtrKernelArgId object at 0x55d82950>, output], [1, input0_dim0], [6804, input0_dim1], [256, input0_dim2], [256, input1_dim0], [4, input1_dim1]]
+E0228 11:05:16.293239 52515 builtin_functions.cc:121] Print
+-- matmul_binary_epilogue_code:
+ float op1_out0 = (args.in_ptr_0[(coord.column)]);
+    float op4_out0 = (x + op1_out0);
+    out = op4_out0;
+E0228 11:05:16.293254 52515 builtin_functions.cc:121] Print
+----begin making project
+E0228 11:05:16.293968 52515 builtin_functions.cc:121] Print
+----end making project
+E0228 11:05:16.295364 52515 builtin_functions.cc:121] Print
+....begin copy program
+E0228 11:05:16.296121 52515 builtin_functions.cc:121] Print
+....exit copy program
+E0228 11:05:16.296192 52515 builtin_functions.cc:121] Print
+before-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%2) = "cinn_op.slice" (%0) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%3) = "cinn_op.yield_store" (%2) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "cinn_op.broadcast" (%1) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.add" (%2, %4) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%6) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true],value:0} : () -> tensor<1x6804x256xf32>
+    (%7) = "pd_op.maximum" (%5, %6) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%8) = "cinn_op.yield_store" (%7) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    () = "cf.yield" (%3, %8) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.297171 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.297184 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.297343 52515 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 11:05:16.297353 52515 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 11:05:16.297586 52515 builtin_functions.cc:121] Print
+after-init-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<1x6804x258xf32>) -> tensor<1x6804x258xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "cinn_op.slice" (%1) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "cinn_op.yield_store" (%3) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "cinn_op.broadcast" (%2) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+    (%6) = "pd_op.add" (%3, %5) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%7) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true],value:0} : () -> tensor<1x6804x256xf32>
+    (%8) = "pd_op.maximum" (%6, %7) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%9) = "cinn_op.yield_store" (%8) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%10) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%4, %10) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.303747 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 11:05:16.303761 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 11:05:16.303828 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 11:05:16.303848 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 11:05:16.303865 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 11:05:16.303928 52515 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_maximum matched.
+I0228 11:05:16.303933 52515 ap_lower_fusion_op_pass.cc:308] drr: pd_op_maximum matched.
+I0228 11:05:16.304018 52515 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 11:05:16.304023 52515 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 11:05:16.304068 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.304090 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.304111 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.304131 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.304148 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.304172 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.304195 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 11:05:16.304210 52515 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 11:05:16.304286 52515 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_right_full_add matched.
+I0228 11:05:16.304292 52515 ap_lower_fusion_op_pass.cc:308] drr: pd_op_right_full_add matched.
+I0228 11:05:16.304342 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.304364 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.304384 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.304400 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.304416 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.304432 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 11:05:16.304451 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.304472 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 11:05:16.304491 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.304510 52515 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 11:05:16.304529 52515 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 11:05:16.304548 52515 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 11:05:16.304566 52515 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 11:05:16.304584 52515 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 11:05:16.304601 52515 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+E0228 11:05:16.304689 52515 builtin_functions.cc:121] Print
+after-apply-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<1x6804x258xf32>) -> tensor<1x6804x258xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "cinn_op.slice" (%1) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+E0228 11:05:16.304783 52515 builtin_functions.cc:121] Print
+after-remove-data-op-pair-pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<1x6804x258xf32>) -> tensor<1x6804x258xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "cinn_op.slice" (%1) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.305620 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.305644 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.305668 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.305688 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.305703 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.305707 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+E0228 11:05:16.305763 52515 builtin_functions.cc:121] Print
+after-remove_data_op2sum_op2data_op_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<1x6804x258xf32>) -> tensor<1x6804x258xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "cinn_op.slice" (%1) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+I0228 11:05:16.306550 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.306573 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.306598 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.306617 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.306632 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.306636 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 11:05:16.306655 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.306668 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 11:05:16.306690 52515 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+E0228 11:05:16.306756 52515 builtin_functions.cc:121] Print
+after-remove-input-output-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[1,6804,258],stop_gradient:[true]} : () -> tensor<1x6804x258xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<1x6804x258xf32>) -> tensor<1x6804x258xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "cinn_op.slice" (%1) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+}
+E0228 11:05:16.307104 52515 ap_lower_fusion_op_pass.cc:2279] 
+Traceback (most recent call last):
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 2294, in operator()
+    GetMatchCtx(op)
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 1765, in operator()
+    graph_matcher.UpdateByConnectionsUntilDone( &opt_graph_match_ctx.value(), drr_op_result_anchor)
+  File "/work/Paddle/paddle/ap/include/ir_match/graph_matcher.h", line 63, in operator()
+    Solve((*ctx)->topo_match_ctx, anchor_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/graph_matcher.h", line 99, in operator()
+    topo_matcher_.UpdateByConnectionsUntilDone( &*topo_match_ctx, anchor_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 59, in operator()
+    UpdateAllByConnections(ctx, anchor_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 220, in operator()
+    ptn_bfs_walker(anchor_node, Update)
+  File "/work/Paddle/paddle/ap/include/adt/bfs_walker.h", line 64, in operator()
+    NodeHandler(node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 215, in operator()
+    TopoMatchCtxInitNode(match_ctx, sg_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 282, in operator()
+    ForEachInitedUpstream(*ctx, sg_node, InitOrUpdate)
+  File "/work/Paddle/paddle/ap/include/graph/node_list.h", line 106, in operator()
+    DoEach(data)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 272, in operator()
+    ctx->InitBigGraphNodes(sg_node, bg_nodes)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_match_ctx.h", line 102, in operator()
+    !val.empty()
+
+MismatchError: TopoMatchCtxImpl::InitBigGraphNodes: sg_node should not be matched to empty.
+pass_name: matmul_binary_fusion
+E0228 11:05:16.307238 52515 ap_lower_fusion_op_pass.cc:2279] 
+Traceback (most recent call last):
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 2294, in operator()
+    GetMatchCtx(op)
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 1765, in operator()
+    graph_matcher.UpdateByConnectionsUntilDone( &opt_graph_match_ctx.value(), drr_op_result_anchor)
+  File "/work/Paddle/paddle/ap/include/ir_match/graph_matcher.h", line 63, in operator()
+    Solve((*ctx)->topo_match_ctx, anchor_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/graph_matcher.h", line 99, in operator()
+    topo_matcher_.UpdateByConnectionsUntilDone( &*topo_match_ctx, anchor_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 59, in operator()
+    UpdateAllByConnections(ctx, anchor_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 220, in operator()
+    ptn_bfs_walker(anchor_node, Update)
+  File "/work/Paddle/paddle/ap/include/adt/bfs_walker.h", line 64, in operator()
+    NodeHandler(node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 215, in operator()
+    TopoMatchCtxInitNode(match_ctx, sg_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 282, in operator()
+    ForEachInitedUpstream(*ctx, sg_node, InitOrUpdate)
+  File "/work/Paddle/paddle/ap/include/graph/node_list.h", line 106, in operator()
+    DoEach(data)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 272, in operator()
+    ctx->InitBigGraphNodes(sg_node, bg_nodes)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_match_ctx.h", line 102, in operator()
+    !val.empty()
+
+MismatchError: TopoMatchCtxImpl::InitBigGraphNodes: sg_node should not be matched to empty.
+pass_name: matmul_binary_fusion
+E0228 11:05:16.307456 52515 add_cinn_pass.cc:233] after ApLowerFusionOpAbstractDrrPass:
+{
+    (%0) = "pd_op.data" () {dtype:float32,name:"t0",place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true]} : () -> tensor<1x6804x256xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"t1",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"t2",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%3) = "pd_op.data" () {dtype:float32,name:"t3",place:Place(undefined:0),shape:[256,2],stop_gradient:[true]} : () -> tensor<256x2xf32>
+    (%4) = "pd_op.data" () {dtype:float32,name:"t4",place:Place(undefined:0),shape:[2],stop_gradient:[true]} : () -> tensor<2xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"t5",place:Place(undefined:0),shape:[256,256],stop_gradient:[true]} : () -> tensor<256x256xf32>
+    (%6) = "pd_op.data" () {dtype:float32,name:"t6",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%7) = "pd_op.data" () {dtype:float32,name:"t7",place:Place(undefined:0),shape:[256,256],stop_gradient:[true]} : () -> tensor<256x256xf32>
+    (%8) = "pd_op.data" () {dtype:float32,name:"t8",place:Place(undefined:0),shape:[256],stop_gradient:[true]} : () -> tensor<256xf32>
+    (%9) = "pd_op.data" () {dtype:float32,name:"t9",place:Place(undefined:0),shape:[256,4],stop_gradient:[true]} : () -> tensor<256x4xf32>
+    (%10) = "pd_op.data" () {dtype:float32,name:"t10",place:Place(undefined:0),shape:[4],stop_gradient:[true]} : () -> tensor<4xf32>
+    (%11) = "cinn_op.fusion" () -> tensor<1x6804x1xf32> {
+        (%12) = "cinn_op.reduce_sum" (%0) {axis:[2],dtype:float32,keepdim:true,stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x1xf32>
+        () = "cf.yield" (%12) {} : (tensor<1x6804x1xf32>) -> 
+    }
+    (%13) = "cinn_op.fusion" () -> tensor<1x6804x256xf32> {
+        (%14) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,1],stop_gradient:[true],value:256} : () -> tensor<1x6804x1xf32>
+        (%15) = "pd_op.divide" (%11, %14) {stop_gradient:[true]} : (tensor<1x6804x1xf32>, tensor<1x6804x1xf32>) -> tensor<1x6804x1xf32>
+        (%16) = "cinn_op.broadcast" (%15) {broadcast_axes:[0,1,2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<1x6804x1xf32>) -> tensor<1x6804x256xf32>
+        (%17) = "pd_op.subtract" (%0, %16) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%18) = "pd_op.multiply" (%17, %17) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%19) = "cinn_op.reduce_sum" (%18) {axis:[2],dtype:float32,keepdim:true,stop_gradient:[true]} : (tensor<1x6804x256xf32>) -> tensor<1x6804x1xf32>
+        (%20) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,1],stop_gradient:[true],value:256} : () -> tensor<1x6804x1xf32>
+        (%21) = "pd_op.divide" (%19, %20) {stop_gradient:[true]} : (tensor<1x6804x1xf32>, tensor<1x6804x1xf32>) -> tensor<1x6804x1xf32>
+        (%22) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,1],stop_gradient:[true],value:1e-05} : () -> tensor<1x6804x1xf32>
+        (%23) = "pd_op.add" (%21, %22) {stop_gradient:[true]} : (tensor<1x6804x1xf32>, tensor<1x6804x1xf32>) -> tensor<1x6804x1xf32>
+        (%24) = "pd_op.rsqrt" (%23) {stop_gradient:[true]} : (tensor<1x6804x1xf32>) -> tensor<1x6804x1xf32>
+        (%25) = "cinn_op.broadcast" (%24) {broadcast_axes:[0,1,2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<1x6804x1xf32>) -> tensor<1x6804x256xf32>
+        (%26) = "pd_op.multiply" (%17, %25) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%27) = "cinn_op.broadcast" (%1) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+        (%28) = "pd_op.multiply" (%26, %27) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%29) = "cinn_op.broadcast" (%2) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+        (%30) = "pd_op.add" (%28, %29) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%31) = "cinn_op.yield_store" (%30) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        () = "cf.yield" (%31) {} : (tensor<1x6804x256xf32>) -> 
+    }
+    (%32) = "cinn_op.fusion" () -> tensor<256x258xf32> {
+        (%33) = "cinn_op.concat" (%3, %5) {axis:1,stop_gradient:[true]} : (tensor<256x2xf32>, tensor<256x256xf32>) -> tensor<256x258xf32>
+        (%34) = "cinn_op.yield_store" (%33) {} : (tensor<256x258xf32>) -> tensor<256x258xf32>
+        () = "cf.yield" (%34) {} : (tensor<256x258xf32>) -> 
+    }
+    (%35) = "pd_op.matmul" (%13, %32) {stop_gradient:[true],transpose_x:false,transpose_y:false} : (tensor<1x6804x256xf32>, tensor<256x258xf32>) -> tensor<1x6804x258xf32>
+    (%36) = "cinn_op.fusion" () -> tensor<1x6804x2xf32> {
+        (%37) = "cinn_op.slice" (%35) {axes:[2],decrease_axis:[],ends:[2],infer_flags:[],starts:[0],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x2xf32>
+        (%38) = "cinn_op.broadcast" (%4) {broadcast_axes:[2],out_shape:[1,6804,2],stop_gradient:[true]} : (tensor<2xf32>) -> tensor<1x6804x2xf32>
+        (%39) = "pd_op.add" (%37, %38) {stop_gradient:[true]} : (tensor<1x6804x2xf32>, tensor<1x6804x2xf32>) -> tensor<1x6804x2xf32>
+        (%40) = "cinn_op.yield_store" (%39) {} : (tensor<1x6804x2xf32>) -> tensor<1x6804x2xf32>
+        () = "cf.yield" (%40) {} : (tensor<1x6804x2xf32>) -> 
+    }
+    (%41, %42) = "cinn_op.fusion" () -> tensor<1x6804x256xf32>, tensor<1x6804x256xf32> {
+        (%43) = "cinn_op.slice" (%35) {axes:[2],decrease_axis:[],ends:[258],infer_flags:[],starts:[2],stop_gradient:[true]} : (tensor<1x6804x258xf32>) -> tensor<1x6804x256xf32>
+        (%44) = "cinn_op.yield_store" (%43) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%45) = "cinn_op.broadcast" (%6) {broadcast_axes:[2],out_shape:[1,6804,256],stop_gradient:[true]} : (tensor<256xf32>) -> tensor<1x6804x256xf32>
+        (%46) = "pd_op.add" (%43, %45) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%47) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[1,6804,256],stop_gradient:[true],value:0} : () -> tensor<1x6804x256xf32>
+        (%48) = "pd_op.maximum" (%46, %47) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        (%49) = "cinn_op.yield_store" (%48) {} : (tensor<1x6804x256xf32>) -> tensor<1x6804x256xf32>
+        () = "cf.yield" (%44, %49) {} : (tensor<1x6804x256xf32>, tensor<1x6804x256xf32>) -> 
+    }
+    (%50) = "builtin.combine" (%42, %7, %8) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<256x256xf32>, tensor<256xf32>) -> vec[tensor<1x6804x256xf32>,tensor<256x256xf32>,tensor<256xf32>]
+    (%51) = "pd_op.ap_unary" (%50) {code_module_lambda:"[\"lambda\",[],[\"__builtin_let__\",[[\"___62\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"void\"}]],[\"___63\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"void_ptr\"}]],[\"___64\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float_ptr\"}]],[\"___65\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float_ptr\"}]],[\"___66\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"float_ptr\"}]],[\"___67\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___68\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___69\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___70\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float_ptr\"}]],[\"___71\",[\"__builtin_list__\",\"___63\",\"___64\",\"___65\",\"___66\",\"___67\",\"___68\",\"___69\",\"___70\"]],[\"___72\",[\"FuncDeclare\",\"___62\",{\"str\":\"MatmulBinaryKernel\"},\"___71\"]],[\"___73\",[\"__builtin_list__\"]],[\"___74\",[\"__builtin_list__\"]],[\"___75\",[\"__builtin_PackedArgs__\",\"___73\",\"___74\"]],[\"___76\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"FileContent\"}]],[\"___77\",[\"___76\",{\"str\":\"nvcc -std=c++17 -O3 -Xcompiler=-fPIC -arch=sm_80 --expt-relaxed-constexpr -I /work/Paddle/Athena/tests/ap/matmul/cutlass/include -I /work/Paddle/Athena/tests/ap/matmul/cutlass/tools/util/include -I /work/Paddle/Athena/tests/ap/matmul -DCUTLASS_ENABLE_TENSOR_CORE_MMA=1 -DCUTLASS_DEBUG_TRACE_LEVEL=0  --shared matmul_binary_kernel.cu -o libmatmul_binary_kernel.so\"}]],[\"___78\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"FileContent\"}]],[\"___79\",[\"___78\",{\"str\":\"\n// auto generated codes\n#include <cuda.h>\n#include <cuda_fp16.h>\n#include <vector>\n\n#include \\"cutlass_matmul.cuh\\"\n\nnamespace ap {\n\ntemplate <typename T>\nstruct VariadicEpilogueFunctor {\n  struct Arguments {\n    const float* in_ptr_0;\n  };\n\n  // Note: need to support vectorized operation\n  __forceinline__ __host__ __device__\n  T operator()(T x, const Arguments& args, const MatrixCoord& coord) const {\n    T out;\n    float op1_out0 = (args.in_ptr_0[(coord.column)]);\n    float op4_out0 = (x + op1_out0);\n    float op5_out0 = (0.000000);\n    float op6_out0 = (((op4_out0 >= op5_out0) ? (op4_out0) : (op5_out0)));\n    out = op6_out0;\n    return out;\n  }\n};\n\n}\n\nextern \\"C\\" {\n\nvoid MatmulBinaryKernel(void* stream_ptr, const float* input0, const float* input1, float* output, int64_t input0_dim0, int64_t input0_dim1, int64_t input0_dim2, const float* in_ptr_0) {\n  std::vector<int64_t> input0_shape;\n  input0_shape.resize(3);\n  input0_shape[0] = input0_dim0;\n  input0_shape[1] = input0_dim1;\n  input0_shape[2] = input0_dim2;\n\n  std::vector<int64_t> input1_shape;\n  input1_shape.resize(2);\n  input1_shape[0] = input0_dim2;\n  input1_shape[1] = input0_dim2;\n\n  cudaStream_t* cuda_stream_ptr = reinterpret_cast<cudaStream_t*>(stream_ptr);\n  ap::GemmEpilogueParams params(\n      *cuda_stream_ptr, input0, input1, nullptr, output, input0_shape, input1_shape, std::vector<int64_t>{});\n\n  using ElementT = float;\n  using ElementComputeT = float;\n\n  typename ap::VariadicEpilogueFunctor<ElementComputeT>::Arguments epilogue_args;\n\n  epilogue_args.in_ptr_0 = in_ptr_0;\n\n  ap::CutlassMatmulAddVariadic<ElementT, ElementComputeT, ap::VariadicEpilogueFunctor>(params, epilogue_args);\n}\n}\n\n  \"}]],[\"___80\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"Directory\"}]],[\"___81\",[\"__builtin_list__\",{\"str\":\"make.sh\"},\"___77\"]],[\"___82\",[\"__builtin_list__\",{\"str\":\"matmul_binary_kernel.cu\"},\"___79\"]],[\"___83\",[\"___80\",\"___81\",\"___82\"]],[\"___84\",[\"BuiltinSerializableAttrMap\",\"___75\"]],[\"___85\",[\"__builtin_list__\",{\"str\":\"compile_cmd\"},{\"str\":\"sh make.sh\"}]],[\"___86\",[\"__builtin_list__\",{\"str\":\"nested_files\"},\"___83\"]],[\"___87\",[\"__builtin_list__\",{\"str\":\"others\"},\"___84\"]],[\"___88\",[\"__builtin_list__\",{\"str\":\"so_relative_path\"},{\"str\":\"libmatmul_binary_kernel.so\"}]],[\"___89\",[\"__builtin_list__\"]],[\"___90\",[\"__builtin_list__\",\"___85\",\"___86\",\"___87\",\"___88\"]],[\"___91\",[\"__builtin_PackedArgs__\",\"___89\",\"___90\"]],[\"___92\",[\"__builtin_list__\",\"___72\"]],[\"___93\",[\"Project\",\"___91\"]]],[\"CodeModule\",\"___92\",\"___93\"]]]",infer_meta_lambda:"[\"lambda\",[\"inputs\",\"outputs\"],[\"__builtin_let__\",[[\"___94\",[\"__builtin_getitem__\",\"outputs\",0]],[\"___95\",[\"__builtin_list__\",1,6804,256]],[\"___96\",[\"__builtin_setattr__\",\"___94\",{\"str\":\"dims\"}]],[\"___97\",[\"___96\",{\"str\":\"dims\"},\"___95\"]],[\"___98\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"float\"}]],[\"___99\",[\"__builtin_setattr__\",\"___94\",{\"str\":\"dtype\"}]],[\"___100\",[\"___99\",{\"str\":\"dtype\"},\"___98\"]]],null]]",kernel_dispatch_const_data_lambda:"[\"lambda\",[],[\"__builtin_let__\",[[\"___101\",[\"__builtin_list__\",{\"str\":\"output\"},0]],[\"___102\",[\"__builtin_list__\"]],[\"___103\",[\"__builtin_list__\",\"___101\"]],[\"___104\",[\"__builtin_PackedArgs__\",\"___102\",\"___103\"]],[\"___105\",[\"__builtin_list__\",{\"str\":\"input0\"},0]],[\"___106\",[\"__builtin_list__\",{\"str\":\"input1\"},1]],[\"___107\",[\"__builtin_list__\",{\"str\":\"input2\"},2]],[\"___108\",[\"__builtin_list__\"]],[\"___109\",[\"__builtin_list__\",\"___105\",\"___106\",\"___107\"]],[\"___110\",[\"__builtin_PackedArgs__\",\"___108\",\"___109\"]],[\"___111\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___50\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___51\",[\"__builtin_getitem__\",\"___50\",0]],[\"___52\",[\"__builtin_getattr__\",\"___51\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___52\"]]]]],[\"___112\",[\"__builtin_getattr__\",\"___111\",{\"str\":\"__function__\"}]],[\"___113\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___53\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___54\",[\"__builtin_getitem__\",\"___53\",1]],[\"___55\",[\"__builtin_getattr__\",\"___54\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___55\"]]]]],[\"___114\",[\"__builtin_getattr__\",\"___113\",{\"str\":\"__function__\"}]],[\"___115\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___56\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"outputs\"}]],[\"___57\",[\"__builtin_getitem__\",\"___56\",0]],[\"___58\",[\"__builtin_getattr__\",\"___57\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___58\"]]]]],[\"___116\",[\"__builtin_getattr__\",\"___115\",{\"str\":\"__function__\"}]],[\"___117\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___5\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___6\",[\"__builtin_getitem__\",\"___5\",0]],[\"___7\",[\"__builtin_getattr__\",\"___6\",{\"str\":\"shape\"}]],[\"___8\",[\"__builtin_getitem__\",\"___7\",0]],[\"___9\",[\"DataValue\",\"___8\"]],[\"___11\",[\"__builtin_getattr__\",\"___9\",{\"str\":\"cast\"}]],[\"___12\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___13\",[\"___11\",\"___12\"]],[\"___10\",[\"__builtin_identity__\",\"___13\"]]],[\"__builtin_identity__\",\"___10\"]]]]],[\"___118\",[\"__builtin_getattr__\",\"___117\",{\"str\":\"__function__\"}]],[\"___119\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___14\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___15\",[\"__builtin_getitem__\",\"___14\",0]],[\"___16\",[\"__builtin_getattr__\",\"___15\",{\"str\":\"shape\"}]],[\"___17\",[\"__builtin_getitem__\",\"___16\",1]],[\"___18\",[\"DataValue\",\"___17\"]],[\"___20\",[\"__builtin_getattr__\",\"___18\",{\"str\":\"cast\"}]],[\"___21\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___22\",[\"___20\",\"___21\"]],[\"___19\",[\"__builtin_identity__\",\"___22\"]]],[\"__builtin_identity__\",\"___19\"]]]]],[\"___120\",[\"__builtin_getattr__\",\"___119\",{\"str\":\"__function__\"}]],[\"___121\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___23\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___24\",[\"__builtin_getitem__\",\"___23\",0]],[\"___25\",[\"__builtin_getattr__\",\"___24\",{\"str\":\"shape\"}]],[\"___26\",[\"__builtin_getitem__\",\"___25\",2]],[\"___27\",[\"DataValue\",\"___26\"]],[\"___29\",[\"__builtin_getattr__\",\"___27\",{\"str\":\"cast\"}]],[\"___30\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___31\",[\"___29\",\"___30\"]],[\"___28\",[\"__builtin_identity__\",\"___31\"]]],[\"__builtin_identity__\",\"___28\"]]]]],[\"___122\",[\"__builtin_getattr__\",\"___121\",{\"str\":\"__function__\"}]],[\"___123\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___59\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___60\",[\"__builtin_getitem__\",\"___59\",2]],[\"___61\",[\"__builtin_getattr__\",\"___60\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___61\"]]]]],[\"___124\",[\"__builtin_getattr__\",\"___123\",{\"str\":\"__function__\"}]],[\"___125\",[\"__builtin_list__\",0,1,2]],[\"___126\",[\"BuiltinSerializableAttrMap\",\"___110\"]],[\"___127\",[\"__builtin_list__\",0]],[\"___128\",[\"BuiltinSerializableAttrMap\",\"___104\"]],[\"___129\",[\"__builtin_list__\",\"___112\",\"___114\",\"___116\",\"___118\",\"___120\",\"___122\",\"___124\"]],[\"___130\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_input_indexes_slices\"},\"___125\"]],[\"___131\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_input_name_to_index\"},\"___126\"]],[\"___132\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_output_indexes_slices\"},\"___127\"]],[\"___133\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_output_name_to_index\"},\"___128\"]],[\"___134\",[\"__builtin_list__\",{\"str\":\"kernel_args_getters\"},\"___129\"]],[\"___135\",[\"__builtin_list__\"]],[\"___136\",[\"__builtin_list__\",\"___130\",\"___131\",\"___132\",\"___133\",\"___134\"]],[\"___137\",[\"__builtin_PackedArgs__\",\"___135\",\"___136\"]]],[\"BuiltinSerializableAttrMap\",\"___137\"]]]",num_outputs:1,rnel_dispatch_lambda:"[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___368\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"get_so_function\"}]],[\"___369\",[\"___368\",{\"str\":\"MatmulBinaryKernel\"}]],[\"so_func\",[\"__builtin_identity__\",\"___369\"]],[\"___371\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"device_ctx\"}]],[\"___370\",[\"__builtin_getattr__\",\"___371\",{\"str\":\"get_stream_addr_as_void_ptr\"}]],[\"___372\",[\"___370\"]],[\"stream_ptr\",[\"__builtin_identity__\",\"___372\"]],[\"___374\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"kernel_dispatch_const_data\"}]],[\"___373\",[\"__builtin_getattr__\",\"___374\",{\"str\":\"kernel_args_getters\"}]],[\"getters\",[\"__builtin_identity__\",\"___373\"]],[\"___376\",[\"map\",[\"lambda\",[\"getter\"],[\"__builtin_let__\",[[\"___375\",[\"getter\",\"ctx\"]]],[\"__builtin_identity__\",\"___375\"]]],\"getters\"]],[\"___377\",[\"__builtin_starred__\",\"___376\"]],[\"___378\",[\"__builtin_list__\",\"stream_ptr\",\"___377\"]],[\"args\",[\"__builtin_identity__\",\"___378\"]],[\"___379\",[\"apply\",\"so_func\",\"args\"]],[\"___380\",[\"__builtin_identity__\",\"___379\"]]],[\"__builtin_identity__\",null]]]",stop_gradient:[true]} : (vec[tensor<1x6804x256xf32>,tensor<256x256xf32>,tensor<256xf32>]) -> vec[tensor<1x6804x256xf32>]
+    (%52) = "builtin.split" (%51) {stop_gradient:[true]} : (vec[tensor<1x6804x256xf32>]) -> tensor<1x6804x256xf32>
+    (%53) = "builtin.combine" (%52, %9, %10) {stop_gradient:[true]} : (tensor<1x6804x256xf32>, tensor<256x4xf32>, tensor<4xf32>) -> vec[tensor<1x6804x256xf32>,tensor<256x4xf32>,tensor<4xf32>]
+    (%54) = "pd_op.ap_unary" (%53) {code_module_lambda:"[\"lambda\",[],[\"__builtin_let__\",[[\"___195\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"void\"}]],[\"___196\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"void_ptr\"}]],[\"___197\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float_ptr\"}]],[\"___198\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float_ptr\"}]],[\"___199\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"float_ptr\"}]],[\"___200\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___201\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___202\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___203\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"int64_t\"}]],[\"___204\",[\"__builtin_getattr__\",\"PointerType\",{\"str\":\"const_float_ptr\"}]],[\"___205\",[\"__builtin_list__\",\"___196\",\"___197\",\"___198\",\"___199\",\"___200\",\"___201\",\"___202\",\"___203\",\"___204\"]],[\"___206\",[\"FuncDeclare\",\"___195\",{\"str\":\"MatmulBinaryKernel\"},\"___205\"]],[\"___207\",[\"__builtin_list__\"]],[\"___208\",[\"__builtin_list__\"]],[\"___209\",[\"__builtin_PackedArgs__\",\"___207\",\"___208\"]],[\"___210\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"FileContent\"}]],[\"___211\",[\"___210\",{\"str\":\"nvcc -std=c++17 -O3 -Xcompiler=-fPIC -arch=sm_80 --expt-relaxed-constexpr -I /work/Paddle/Athena/tests/ap/matmul/cutlass/include -I /work/Paddle/Athena/tests/ap/matmul/cutlass/tools/util/include -I /work/Paddle/Athena/tests/ap/matmul -DCUTLASS_ENABLE_TENSOR_CORE_MMA=1 -DCUTLASS_DEBUG_TRACE_LEVEL=0  --shared matmul_binary_kernel.cu -o libmatmul_binary_kernel.so\"}]],[\"___212\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"FileContent\"}]],[\"___213\",[\"___212\",{\"str\":\"\n// auto generated codes\n#include <cuda.h>\n#include <cuda_fp16.h>\n#include <vector>\n\n#include \\"cutlass_matmul.cuh\\"\n\nnamespace ap {\n\ntemplate <typename T>\nstruct VariadicEpilogueFunctor {\n  struct Arguments {\n    const float* in_ptr_0;\n  };\n\n  // Note: need to support vectorized operation\n  __forceinline__ __host__ __device__\n  T operator()(T x, const Arguments& args, const MatrixCoord& coord) const {\n    T out;\n    float op1_out0 = (args.in_ptr_0[(coord.column)]);\n    float op4_out0 = (x + op1_out0);\n    out = op4_out0;\n    return out;\n  }\n};\n\n}\n\nextern \\"C\\" {\n\nvoid MatmulBinaryKernel(void* stream_ptr, const float* input0, const float* input1, float* output, int64_t input0_dim0, int64_t input0_dim1, int64_t input0_dim2, int64_t input1_dim1, const float* in_ptr_0) {\n  std::vector<int64_t> input0_shape;\n  input0_shape.resize(3);\n  input0_shape[0] = input0_dim0;\n  input0_shape[1] = input0_dim1;\n  input0_shape[2] = input0_dim2;\n\n  std::vector<int64_t> input1_shape;\n  input1_shape.resize(2);\n  input1_shape[0] = input0_dim2;\n  input1_shape[1] = input1_dim1;\n\n  cudaStream_t* cuda_stream_ptr = reinterpret_cast<cudaStream_t*>(stream_ptr);\n  ap::GemmEpilogueParams params(\n      *cuda_stream_ptr, input0, input1, nullptr, output, input0_shape, input1_shape, std::vector<int64_t>{});\n\n  using ElementT = float;\n  using ElementComputeT = float;\n\n  typename ap::VariadicEpilogueFunctor<ElementComputeT>::Arguments epilogue_args;\n\n  epilogue_args.in_ptr_0 = in_ptr_0;\n\n  ap::CutlassMatmulAddVariadic<ElementT, ElementComputeT, ap::VariadicEpilogueFunctor>(params, epilogue_args);\n}\n}\n\n  \"}]],[\"___214\",[\"__builtin_getattr__\",\"Project\",{\"str\":\"Directory\"}]],[\"___215\",[\"__builtin_list__\",{\"str\":\"make.sh\"},\"___211\"]],[\"___216\",[\"__builtin_list__\",{\"str\":\"matmul_binary_kernel.cu\"},\"___213\"]],[\"___217\",[\"___214\",\"___215\",\"___216\"]],[\"___218\",[\"BuiltinSerializableAttrMap\",\"___209\"]],[\"___219\",[\"__builtin_list__\",{\"str\":\"compile_cmd\"},{\"str\":\"sh make.sh\"}]],[\"___220\",[\"__builtin_list__\",{\"str\":\"nested_files\"},\"___217\"]],[\"___221\",[\"__builtin_list__\",{\"str\":\"others\"},\"___218\"]],[\"___222\",[\"__builtin_list__\",{\"str\":\"so_relative_path\"},{\"str\":\"libmatmul_binary_kernel.so\"}]],[\"___223\",[\"__builtin_list__\"]],[\"___224\",[\"__builtin_list__\",\"___219\",\"___220\",\"___221\",\"___222\"]],[\"___225\",[\"__builtin_PackedArgs__\",\"___223\",\"___224\"]],[\"___226\",[\"__builtin_list__\",\"___206\"]],[\"___227\",[\"Project\",\"___225\"]]],[\"CodeModule\",\"___226\",\"___227\"]]]",infer_meta_lambda:"[\"lambda\",[\"inputs\",\"outputs\"],[\"__builtin_let__\",[[\"___228\",[\"__builtin_getitem__\",\"outputs\",0]],[\"___229\",[\"__builtin_list__\",1,6804,4]],[\"___230\",[\"__builtin_setattr__\",\"___228\",{\"str\":\"dims\"}]],[\"___231\",[\"___230\",{\"str\":\"dims\"},\"___229\"]],[\"___232\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"float\"}]],[\"___233\",[\"__builtin_setattr__\",\"___228\",{\"str\":\"dtype\"}]],[\"___234\",[\"___233\",{\"str\":\"dtype\"},\"___232\"]]],null]]",kernel_dispatch_const_data_lambda:"[\"lambda\",[],[\"__builtin_let__\",[[\"___235\",[\"__builtin_list__\",{\"str\":\"output\"},0]],[\"___236\",[\"__builtin_list__\"]],[\"___237\",[\"__builtin_list__\",\"___235\"]],[\"___238\",[\"__builtin_PackedArgs__\",\"___236\",\"___237\"]],[\"___239\",[\"__builtin_list__\",{\"str\":\"input0\"},0]],[\"___240\",[\"__builtin_list__\",{\"str\":\"input1\"},1]],[\"___241\",[\"__builtin_list__\",{\"str\":\"input2\"},2]],[\"___242\",[\"__builtin_list__\"]],[\"___243\",[\"__builtin_list__\",\"___239\",\"___240\",\"___241\"]],[\"___244\",[\"__builtin_PackedArgs__\",\"___242\",\"___243\"]],[\"___245\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___183\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___184\",[\"__builtin_getitem__\",\"___183\",0]],[\"___185\",[\"__builtin_getattr__\",\"___184\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___185\"]]]]],[\"___246\",[\"__builtin_getattr__\",\"___245\",{\"str\":\"__function__\"}]],[\"___247\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___186\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___187\",[\"__builtin_getitem__\",\"___186\",1]],[\"___188\",[\"__builtin_getattr__\",\"___187\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___188\"]]]]],[\"___248\",[\"__builtin_getattr__\",\"___247\",{\"str\":\"__function__\"}]],[\"___249\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___189\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"outputs\"}]],[\"___190\",[\"__builtin_getitem__\",\"___189\",0]],[\"___191\",[\"__builtin_getattr__\",\"___190\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___191\"]]]]],[\"___250\",[\"__builtin_getattr__\",\"___249\",{\"str\":\"__function__\"}]],[\"___251\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___138\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___139\",[\"__builtin_getitem__\",\"___138\",0]],[\"___140\",[\"__builtin_getattr__\",\"___139\",{\"str\":\"shape\"}]],[\"___141\",[\"__builtin_getitem__\",\"___140\",0]],[\"___142\",[\"DataValue\",\"___141\"]],[\"___144\",[\"__builtin_getattr__\",\"___142\",{\"str\":\"cast\"}]],[\"___145\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___146\",[\"___144\",\"___145\"]],[\"___143\",[\"__builtin_identity__\",\"___146\"]]],[\"__builtin_identity__\",\"___143\"]]]]],[\"___252\",[\"__builtin_getattr__\",\"___251\",{\"str\":\"__function__\"}]],[\"___253\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___147\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___148\",[\"__builtin_getitem__\",\"___147\",0]],[\"___149\",[\"__builtin_getattr__\",\"___148\",{\"str\":\"shape\"}]],[\"___150\",[\"__builtin_getitem__\",\"___149\",1]],[\"___151\",[\"DataValue\",\"___150\"]],[\"___153\",[\"__builtin_getattr__\",\"___151\",{\"str\":\"cast\"}]],[\"___154\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___155\",[\"___153\",\"___154\"]],[\"___152\",[\"__builtin_identity__\",\"___155\"]]],[\"__builtin_identity__\",\"___152\"]]]]],[\"___254\",[\"__builtin_getattr__\",\"___253\",{\"str\":\"__function__\"}]],[\"___255\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___156\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___157\",[\"__builtin_getitem__\",\"___156\",0]],[\"___158\",[\"__builtin_getattr__\",\"___157\",{\"str\":\"shape\"}]],[\"___159\",[\"__builtin_getitem__\",\"___158\",2]],[\"___160\",[\"DataValue\",\"___159\"]],[\"___162\",[\"__builtin_getattr__\",\"___160\",{\"str\":\"cast\"}]],[\"___163\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___164\",[\"___162\",\"___163\"]],[\"___161\",[\"__builtin_identity__\",\"___164\"]]],[\"__builtin_identity__\",\"___161\"]]]]],[\"___256\",[\"__builtin_getattr__\",\"___255\",{\"str\":\"__function__\"}]],[\"___257\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___174\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___175\",[\"__builtin_getitem__\",\"___174\",1]],[\"___176\",[\"__builtin_getattr__\",\"___175\",{\"str\":\"shape\"}]],[\"___177\",[\"__builtin_getitem__\",\"___176\",1]],[\"___178\",[\"DataValue\",\"___177\"]],[\"___180\",[\"__builtin_getattr__\",\"___178\",{\"str\":\"cast\"}]],[\"___181\",[\"__builtin_getattr__\",\"DataType\",{\"str\":\"const_int64\"}]],[\"___182\",[\"___180\",\"___181\"]],[\"___179\",[\"__builtin_identity__\",\"___182\"]]],[\"__builtin_identity__\",\"___179\"]]]]],[\"___258\",[\"__builtin_getattr__\",\"___257\",{\"str\":\"__function__\"}]],[\"___259\",[\"__builtin_identity__\",[\"lambda\",[\"ctx\"],[\"__builtin_let__\",[[\"___192\",[\"__builtin_getattr__\",\"ctx\",{\"str\":\"inputs\"}]],[\"___193\",[\"__builtin_getitem__\",\"___192\",2]],[\"___194\",[\"__builtin_getattr__\",\"___193\",{\"str\":\"data_ptr\"}]]],[\"__builtin_identity__\",\"___194\"]]]]],[\"___260\",[\"__builtin_getattr__\",\"___259\",{\"str\":\"__function__\"}]],[\"___261\",[\"__builtin_list__\",0,1,2]],[\"___262\",[\"BuiltinSerializableAttrMap\",\"___244\"]],[\"___263\",[\"__builtin_list__\",0]],[\"___264\",[\"BuiltinSerializableAttrMap\",\"___238\"]],[\"___265\",[\"__builtin_list__\",\"___246\",\"___248\",\"___250\",\"___252\",\"___254\",\"___256\",\"___258\",\"___260\"]],[\"___266\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_input_indexes_slices\"},\"___261\"]],[\"___267\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_input_name_to_index\"},\"___262\"]],[\"___268\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_output_indexes_slices\"},\"___263\"]],[\"___269\",[\"__builtin_list__\",{\"str\":\"__builtin_ap_kernel_output_name_to_index\"},\"___264\"]],[\"___270\",[\"__builtin_list__\",{\"str\":\"kernel_args_getters\"},\"___265\"]],[\"___271\",[\"__builtin_list__\"]],[\"___272\",[\"__builtin_list__\",\"___266\",\"___267\",\"___268\",\"___269\",\"___270\"]],[\"___273\",[\"__builtin_PackedArgs__\",\"___271\",\"___272\
+I0228 11:05:16.309916 52515 add_cinn_pass.cc:340] Time of lowering and compiling program: ***** [ 0 ] ***** seconds.
+I0228 11:05:16.309931 52515 add_cinn_pass.cc:344] Number of ops in the original program is: 47, after lowering it becomes: 69. (compression ratio: 69/47 = 1.46809)
+I0228 11:05:16.312074 52515 build_cinn_pass.cc:68] Time of building group ops (size=0): 0 min 0 s 0 ms
+I0228 11:05:16.312256 52515 add_cinn_pass.cc:326] FusionOp count before lowering : *****[ 0 ]*****
+I0228 11:05:16.312268 52515 add_cinn_pass.cc:263] Enable AP Generic DRR Pass
+E0228 11:05:16.312275 52515 add_cinn_pass.cc:230] before ApLowerFusionOpAbstractDrrPass:
+{
+}
+E0228 11:05:16.312384 52515 add_cinn_pass.cc:233] after ApLowerFusionOpAbstractDrrPass:
+{
+}
+I0228 11:05:16.312413 52515 add_cinn_pass.cc:340] Time of lowering and compiling program: ***** [ 0 ] ***** seconds.
+I0228 11:05:16.312418 52515 add_cinn_pass.cc:344] Number of ops in the original program is: 0, after lowering it becomes: 0. (compression ratio: 0/0 = -nan)
+I0228 11:05:16.319450 52515 pir_interpreter.cc:1604] New Executor is Running ...
+I0228 11:05:16.322288 52515 pir_interpreter.cc:1628] pir interpreter is running by multi-thread mode ...
+
+
+--------------------------------------
+C++ Traceback (most recent call last):
+--------------------------------------
+0   paddle::framework::ThreadPoolTempl<paddle::framework::StlThreadEnvironment>::WorkerLoop(int)
+1   paddle::framework::PirInterpreter::RunInstructionBaseAsync(unsigned long)
+2   paddle::framework::PirInterpreter::RunInstructionBase(paddle::framework::InstructionBase*)
+3   paddle::framework::PhiKernelInstruction::Run()
+4   phi::KernelImpl<void (*)(phi::GPUContext const&, std::vector<phi::DenseTensor const*, std::allocator<phi::DenseTensor const*> > const&, int, std::string const&, std::string const&, std::string const&, std::string const&, std::vector<phi::DenseTensor*, std::allocator<phi::DenseTensor*> >), &(void phi::ApUnaryKernel<float, phi::GPUContext>(phi::GPUContext const&, std::vector<phi::DenseTensor const*, std::allocator<phi::DenseTensor const*> > const&, int, std::string const&, std::string const&, std::string const&, std::string const&, std::vector<phi::DenseTensor*, std::allocator<phi::DenseTensor*> >))>::Compute(phi::KernelContext*)
+5   void phi::ApUnaryKernel<float, phi::GPUContext>(phi::GPUContext const&, std::vector<phi::DenseTensor const*, std::allocator<phi::DenseTensor const*> > const&, int, std::string const&, std::string const&, std::string const&, std::string const&, std::vector<phi::DenseTensor*, std::allocator<phi::DenseTensor*> >)
+6   ap::kernel_dispatch::ApUnaryKernel(ap::kernel_dispatch::DeviceCtx const&, std::vector<phi::DenseTensor const*, std::allocator<phi::DenseTensor const*> > const&, int, std::string const&, std::string const&, std::string const&, std::string const&, std::vector<phi::DenseTensor*, std::allocator<phi::DenseTensor*> >)
+7   ap::adt::Result<ap::kernel_dispatch::RtModule> ap::kernel_dispatch::CacheRtModule<&ap::kernel_dispatch::MakeRtModule>(std::string const&)
+8   ap::kernel_dispatch::MakeRtModule(std::string const&)
+9   std::__detail::__variant::__gen_vtable_impl<std::__detail::__variant::_Multi_array<ap::adt::Result<std::shared_ptr<ap::rt_module::Module const> > (*)(common::Overloaded<ap::rt_module::NaiveModuleMaker::Make(ap::code_module::CodeModule const&, std::function<std::string const& (ap::code_module::CodeModule const&)> const&) const::{lambda(ap::code_module::Project const&)#1}, ap::rt_module::NaiveModuleMaker::Make(ap::code_module::CodeModule const&, std::function<std::string const& (ap::code_module::CodeModule const&)> const&) const::{lambda(ap::code_module::Package const&)#2}>&&, std::variant<ap::code_module::Project, ap::rt_module::NaiveModuleMaker::Make(ap::code_module::CodeModule const&, std::function<std::string const& (ap::code_module::CodeModule const&)> const&) const::{lambda(ap::code_module::Project const&)#1}> const&)>, std::tuple<std::variant<ap::code_module::Project, ap::rt_module::NaiveModuleMaker::Make(ap::code_module::CodeModule const&, std::function<std::string const& (ap::code_module::CodeModule const&)> const&) const::{lambda(ap::code_module::Project const&)#1}> >, std::integer_sequence<unsigned long, 0ul> >::__visit_invoke(ap::rt_module::NaiveModuleMaker::Make(ap::code_module::CodeModule const&, std::function<std::string const& (ap::code_module::CodeModule const&)> const&) const::{lambda(ap::code_module::Package const&)#2}, std::variant<ap::code_module::Project, ap::rt_module::NaiveModuleMaker::Make(ap::code_module::CodeModule const&, std::function<std::string const& (ap::code_module::CodeModule const&)> const&) const::{lambda(ap::code_module::Project const&)#1}>)
+10  ap::rt_module::NaiveModuleMaker::MakeByProject(ap::code_module::CodeModule const&, std::function<std::string const& (ap::code_module::CodeModule const&)> const&) const
+11  ap::rt_module::NaiveDlHandle::DlOpen(std::string const&, std::string const&)
+12  std::string std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::string&&, char const*)
+
+----------------------
+Error Message Summary:
+----------------------
+FatalError: `Segmentation fault` is detected by the operating system.
+  [TimeInfo: *** Aborted at 1740711917 (unix time) try "date -d @1740711917" if you are using GNU date ***]
+  [SignalInfo: *** SIGSEGV (@0x0) received by PID 52515 (TID 0x7ff9961fc700) from PID 0 ***]
+

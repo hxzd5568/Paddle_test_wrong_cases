@@ -1,0 +1,738 @@
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+E0228 19:51:16.079459 50913 ir_helper_method_class.cc:386] REGISTER_AP_BUILTIN_MODULE ir_tools
+W0228 19:51:18.973959 50913 gpu_resources.cc:119] Please NOTE: device: 0, GPU Compute Capability: 8.0, Driver API Version: 12.0, Runtime API Version: 11.8
+W0228 19:51:18.974905 50913 gpu_resources.cc:164] device: 0, cuDNN Version: 8.6.
+W0228 19:51:19.299495 50913 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+W0228 19:51:19.303777 50913 shape_optimization_pass.cc:346] cached shape is not consistent with real shape
+W0228 19:51:19.303807 50913 shape_optimization_pass.cc:346] cached shape is not consistent with real shape
+W0228 19:51:19.303929 50913 shape_optimization_pass.cc:346] cached shape is not consistent with real shape
+W0228 19:51:19.306388 50913 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+W0228 19:51:19.307379 50913 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+I0228 19:51:19.309944 50913 build_cinn_pass.cc:68] Time of building group ops (size=47): 0 min 0 s 2 ms
+I0228 19:51:19.326355 50913 add_cinn_pass.cc:326] FusionOp count before lowering : *****[ 3 ]*****
+I0228 19:51:19.326390 50913 add_cinn_pass.cc:263] Enable AP Generic DRR Pass
+E0228 19:51:19.382021 50913 add_cinn_pass.cc:230] before ApLowerFusionOpAbstractDrrPass:
+{
+    (%0) = "pd_op.data" () {dtype:int64,name:"t0",place:Place(undefined:0),shape:[],stop_gradient:[true]} : () -> tensor<i64>
+    (%1) = "pd_op.data" () {dtype:int64,name:"t1",place:Place(undefined:0),shape:[],stop_gradient:[true]} : () -> tensor<i64>
+    (%2) = "pd_op.data" () {dtype:int64,name:"t2",place:Place(undefined:0),shape:[],stop_gradient:[true]} : () -> tensor<i64>
+    (%3) = "pd_op.data" () {dtype:float32,name:"t3",place:Place(undefined:0),shape:[-1,96,96,192],stop_gradient:[true]} : () -> tensor<-1x96x96x192xf32>
+    (%4) = "pd_op.data" () {dtype:float32,name:"t4",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"t5",place:Place(undefined:0),shape:[192],stop_gradient:[true]} : () -> tensor<192xf32>
+    (%6) = "pd_op.data" () {dtype:float32,name:"t6",place:Place(undefined:0),shape:[192],stop_gradient:[true]} : () -> tensor<192xf32>
+    (%7) = "pd_op.data" () {dtype:float32,name:"t7",place:Place(undefined:0),shape:[192,768],stop_gradient:[true]} : () -> tensor<192x768xf32>
+    (%8) = "pd_op.data" () {dtype:float32,name:"t8",place:Place(undefined:0),shape:[768],stop_gradient:[true]} : () -> tensor<768xf32>
+    (%9) = "pd_op.data" () {dtype:float32,name:"t9",place:Place(undefined:0),shape:[768,192],stop_gradient:[true]} : () -> tensor<768x192xf32>
+    (%10) = "pd_op.data" () {dtype:float32,name:"t10",place:Place(undefined:0),shape:[192],stop_gradient:[true]} : () -> tensor<192xf32>
+    (%11) = "pd_op.data" () {dtype:int64,name:"t11",place:Place(undefined:0),shape:[1],stop_gradient:[true]} : () -> tensor<1xi64>
+    (%12) = "pd_op.data" () {dtype:int64,name:"t12",place:Place(undefined:0),shape:[1],stop_gradient:[true]} : () -> tensor<1xi64>
+    (%13, %14) = "cinn_op.fusion" () -> tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32> {
+        (%15) = "cinn_op.generate_shape" (%0, %1, %2) {output_dim_exprs:["S0","S1","S2"],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["DataSymbolBinding","S1",1,0],["DataSymbolBinding","S2",2,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>) -> tensor<3xi64>
+        (%16) = "pd_op.reshape" (%3, %15) {stop_gradient:[true]} : (tensor<-1x96x96x192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%17) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%18) = "pd_op.expand" (%4, %17) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%19) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%20) = "pd_op.expand" (%16, %19) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%21) = "pd_op.add" (%18, %20) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%22) = "cinn_op.yield_store" (%21) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+        (%23) = "cinn_op.reduce_sum" (%21) {axis:[2],dtype:float32,keepdim:true,stop_gradient:[true]} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x1xf32>
+        (%24) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:192} : () -> tensor<f32>
+        (%25) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,1],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%26) = "pd_op.expand" (%24, %25) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%27) = "pd_op.divide" (%23, %26) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x1xf32>
+        (%28) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%29) = "pd_op.expand" (%27, %28) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%30) = "pd_op.subtract" (%21, %29) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%31) = "pd_op.multiply" (%30, %30) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+        (%32) = "cinn_op.reduce_sum" (%31) {axis:[2],dtype:float32,keepdim:true,stop_gradient:[true]} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x1xf32>
+        (%33) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:192} : () -> tensor<f32>
+        (%34) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,1],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%35) = "pd_op.expand" (%33, %34) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%36) = "pd_op.divide" (%32, %35) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x1xf32>
+        (%37) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:1e-05} : () -> tensor<f32>
+        (%38) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,1],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%39) = "pd_op.expand" (%37, %38) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%40) = "pd_op.add" (%36, %39) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x1xf32>
+        (%41) = "pd_op.rsqrt" (%40) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>) -> tensor<-1x9216x1xf32>
+        (%42) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%43) = "pd_op.expand" (%41, %42) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%44) = "pd_op.multiply" (%30, %43) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%45) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%46) = "pd_op.expand" (%5, %45) {stop_gradient:[true]} : (tensor<192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%47) = "pd_op.multiply" (%44, %46) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%48) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%49) = "pd_op.expand" (%6, %48) {stop_gradient:[true]} : (tensor<192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%50) = "pd_op.add" (%47, %49) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%51) = "cinn_op.yield_store" (%50) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+        () = "cf.yield" (%22, %51) {} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> 
+    }
+    (%52) = "pd_op.matmul" (%14, %7) {stop_gradient:[true],transpose_x:false,transpose_y:false} : (tensor<-1x9216x192xf32>, tensor<192x768xf32>) -> tensor<-1x9216x768xf32>
+    (%53) = "cinn_op.fusion" () -> tensor<-1x9216x768xf32> {
+        (%54) = "cinn_op.generate_shape" (%52) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+        (%55) = "pd_op.expand" (%8, %54) {stop_gradient:[true]} : (tensor<768xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%56) = "pd_op.add" (%52, %55) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+        (%57) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.5} : () -> tensor<f32>
+        (%58) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:1} : () -> tensor<f32>
+        (%59) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.707107} : () -> tensor<f32>
+        (%60) = "cinn_op.generate_shape" (%56) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+        (%61) = "pd_op.expand" (%59, %60) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%62) = "pd_op.multiply" (%56, %61) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+        (%63) = "pd_op.erf" (%62) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+        (%64) = "cinn_op.generate_shape" (%63) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+        (%65) = "pd_op.expand" (%58, %64) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%66) = "pd_op.add" (%65, %63) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+        (%67) = "cinn_op.generate_shape" (%56) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+        (%68) = "pd_op.expand" (%57, %67) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%69) = "pd_op.multiply" (%56, %68) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+        (%70) = "pd_op.multiply" (%69, %66) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+        (%71) = "cinn_op.yield_store" (%70) {} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+        () = "cf.yield" (%71) {} : (tensor<-1x9216x768xf32>) -> 
+    }
+    (%72) = "pd_op.matmul" (%53, %9) {stop_gradient:[true],transpose_x:false,transpose_y:false} : (tensor<-1x9216x768xf32>, tensor<768x192xf32>) -> tensor<-1x9216x192xf32>
+    (%73) = "cinn_op.fusion" () -> tensor<-1x9216x192xf32> {
+        (%74) = "cinn_op.generate_shape" (%72) {output_dim_exprs:["SS0",9216,192],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%75) = "pd_op.expand" (%10, %74) {stop_gradient:[true]} : (tensor<192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%76) = "pd_op.add" (%72, %75) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%77) = "pd_op.add" (%13, %76) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+        (%78) = "cinn_op.yield_store" (%77) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+        () = "cf.yield" (%78) {} : (tensor<-1x9216x192xf32>) -> 
+    }
+    (%79) = "cinn_op.generate_shape" (%73) {output_dim_exprs:["SS0"],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x192xf32>) -> tensor<i64>
+    (%80) = "pd_op.share_data_" (%79) {stop_gradient:[true]} : (tensor<i64>) -> tensor<i64>
+    () = "builtin.shadow_output" (%73) {output_name:"output_0"} : (tensor<-1x9216x192xf32>) -> 
+    () = "builtin.shadow_output" (%80) {output_name:"output_1"} : (tensor<i64>) -> 
+}
+E0228 19:51:19.383324 50913 builtin_functions.cc:121] Print
+....begin copy program
+E0228 19:51:19.387059 50913 builtin_functions.cc:121] Print
+....exit copy program
+E0228 19:51:19.387184 50913 builtin_functions.cc:121] Print
+before-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,768],stop_gradient:[true]} : () -> tensor<-1x9216x768xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[768],stop_gradient:[true]} : () -> tensor<768xf32>
+    (%2) = "cinn_op.generate_shape" (%0) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%3) = "pd_op.expand" (%1, %2) {stop_gradient:[true]} : (tensor<768xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%4) = "pd_op.add" (%0, %3) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+    (%5) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.5} : () -> tensor<f32>
+    (%6) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:1} : () -> tensor<f32>
+    (%7) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.707107} : () -> tensor<f32>
+    (%8) = "cinn_op.generate_shape" (%4) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%9) = "pd_op.expand" (%7, %8) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%10) = "pd_op.multiply" (%4, %9) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+    (%11) = "pd_op.erf" (%10) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%12) = "cinn_op.generate_shape" (%11) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%13) = "pd_op.expand" (%6, %12) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%14) = "pd_op.add" (%13, %11) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%15) = "cinn_op.generate_shape" (%4) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%16) = "pd_op.expand" (%5, %15) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%17) = "pd_op.multiply" (%4, %16) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+    (%18) = "pd_op.multiply" (%17, %14) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%19) = "cinn_op.yield_store" (%18) {} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    () = "cf.yield" (%19) {} : (tensor<-1x9216x768xf32>) -> 
+}
+I0228 19:51:19.388422 50913 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 19:51:19.388440 50913 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 19:51:19.389175 50913 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 19:51:19.389187 50913 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 19:51:19.389592 50913 builtin_functions.cc:121] Print
+after-init-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,768],stop_gradient:[true]} : () -> tensor<-1x9216x768xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[768],stop_gradient:[true]} : () -> tensor<768xf32>
+    (%3) = "cinn_op.generate_shape" (%1) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%4) = "pd_op.expand" (%2, %3) {stop_gradient:[true]} : (tensor<768xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%5) = "pd_op.add" (%1, %4) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+    (%6) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.5} : () -> tensor<f32>
+    (%7) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:1} : () -> tensor<f32>
+    (%8) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.707107} : () -> tensor<f32>
+    (%9) = "cinn_op.generate_shape" (%5) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%10) = "pd_op.expand" (%8, %9) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%11) = "pd_op.multiply" (%5, %10) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+    (%12) = "pd_op.erf" (%11) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%13) = "cinn_op.generate_shape" (%12) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%14) = "pd_op.expand" (%7, %13) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%15) = "pd_op.add" (%14, %12) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%16) = "cinn_op.generate_shape" (%5) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%17) = "pd_op.expand" (%6, %16) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%18) = "pd_op.multiply" (%5, %17) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+    (%19) = "pd_op.multiply" (%18, %15) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%20) = "cinn_op.yield_store" (%19) {} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%21) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,768],stop_gradient:[true]} : () -> tensor<-1x9216x768xf32>
+    () = "ap_op.up_spider" (%20, %21) {} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> 
+}
+I0228 19:51:19.395810 50913 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 19:51:19.395823 50913 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 19:51:19.395931 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.395949 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.395967 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.395979 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.396021 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.396032 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.396121 50913 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_multiply matched.
+I0228 19:51:19.396126 50913 ap_lower_fusion_op_pass.cc:308] drr: pd_op_multiply matched.
+I0228 19:51:19.396225 50913 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_erf matched.
+I0228 19:51:19.396231 50913 ap_lower_fusion_op_pass.cc:308] drr: pd_op_erf matched.
+I0228 19:51:19.396309 50913 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 19:51:19.396369 50913 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_multiply matched.
+I0228 19:51:19.396374 50913 ap_lower_fusion_op_pass.cc:308] drr: pd_op_multiply matched.
+I0228 19:51:19.396461 50913 ap_lower_fusion_op_pass.cc:2434] drr: pd_op_multiply matched.
+I0228 19:51:19.396466 50913 ap_lower_fusion_op_pass.cc:308] drr: pd_op_multiply matched.
+I0228 19:51:19.396540 50913 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 19:51:19.396546 50913 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 19:51:19.396590 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.396613 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.396633 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.396652 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.396672 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.396693 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.396888 50913 ap_lower_fusion_op_pass.cc:2434] drr: expand_up_spider matched.
+I0228 19:51:19.396895 50913 ap_lower_fusion_op_pass.cc:308] drr: expand_up_spider matched.
+I0228 19:51:19.397063 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.397081 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.397095 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.397109 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.397122 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.397137 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.397224 50913 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 19:51:19.397229 50913 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 19:51:19.397346 50913 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 19:51:19.397351 50913 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 19:51:19.397400 50913 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 19:51:19.397480 50913 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 19:51:19.397485 50913 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 19:51:19.397595 50913 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 19:51:19.397600 50913 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 19:51:19.397701 50913 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_relu matched.
+I0228 19:51:19.397707 50913 ap_lower_fusion_op_pass.cc:308] drr: down_spider_relu matched.
+I0228 19:51:19.397751 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.397773 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.397841 50913 ap_lower_fusion_op_pass.cc:2434] drr: left_down_spider_up_spider matched.
+I0228 19:51:19.397846 50913 ap_lower_fusion_op_pass.cc:308] drr: left_down_spider_up_spider matched.
+I0228 19:51:19.397893 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.397914 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.397933 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.397951 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.397970 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.397987 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.398002 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.398016 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.398029 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.398042 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.398057 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.398074 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.398229 50913 ap_lower_fusion_op_pass.cc:2434] drr: expand_up_spider matched.
+I0228 19:51:19.398236 50913 ap_lower_fusion_op_pass.cc:308] drr: expand_up_spider matched.
+I0228 19:51:19.398389 50913 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 19:51:19.398413 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.398432 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.398451 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.398470 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.398515 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.398535 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.398686 50913 ap_lower_fusion_op_pass.cc:2434] drr: expand_up_spider matched.
+I0228 19:51:19.398694 50913 ap_lower_fusion_op_pass.cc:308] drr: expand_up_spider matched.
+I0228 19:51:19.398816 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.398838 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.398859 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.398877 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.398903 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.398926 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.398948 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.398967 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.398985 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.399004 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.399020 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.399034 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.399053 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.399073 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.399091 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.399111 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.399128 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.399145 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.399156 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.399171 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_left_full_add mismatched.
+I0228 19:51:19.399184 50913 ap_lower_fusion_op_pass.cc:2413] drr: pd_op_right_full_add mismatched.
+I0228 19:51:19.399205 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.399224 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.399245 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.399263 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.399289 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.399313 50913 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 19:51:19.399333 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.399351 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.399369 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.399387 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.399412 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.399431 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.399451 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.399468 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.399487 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.399510 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+E0228 19:51:19.399654 50913 builtin_functions.cc:121] Print
+after-apply-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,768],stop_gradient:[true]} : () -> tensor<-1x9216x768xf32>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1,2]} : () -> tensor<3xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<3xi64>) -> tensor<f32>
+    (%3) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1,2]} : () -> tensor<3xi64>
+    (%4) = "pd_op.sum" (%0, %3) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<3xi64>) -> tensor<f32>
+    (%5) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%6) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1]} : () -> tensor<2xi64>
+    (%7) = "pd_op.sum" (%0, %6) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<2xi64>) -> tensor<768xf32>
+    (%8) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[768],stop_gradient:[true]} : () -> tensor<768xf32>
+    () = "ap_op.up_spider" (%7, %8) {} : (tensor<768xf32>, tensor<768xf32>) -> 
+    (%9) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.5} : () -> tensor<f32>
+    () = "ap_op.up_spider" (%2, %9) {} : (tensor<f32>, tensor<f32>) -> 
+    (%10) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:1} : () -> tensor<f32>
+    (%11) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.707107} : () -> tensor<f32>
+    () = "ap_op.up_spider" (%4, %11) {} : (tensor<f32>, tensor<f32>) -> 
+    (%12) = "cinn_op.generate_shape" (%5) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%13) = "pd_op.expand" (%10, %12) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%14) = "pd_op.add" (%13, %5) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    () = "ap_op.up_spider" (%0, %14) {} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> 
+    (%15) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,768],stop_gradient:[true]} : () -> tensor<-1x9216x768xf32>
+    () = "ap_op.up_spider" (%0, %15) {} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> 
+}
+E0228 19:51:19.399792 50913 builtin_functions.cc:121] Print
+after-remove-data-op-pair-pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,768],stop_gradient:[true]} : () -> tensor<-1x9216x768xf32>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1,2]} : () -> tensor<3xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<3xi64>) -> tensor<f32>
+    (%3) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1,2]} : () -> tensor<3xi64>
+    (%4) = "pd_op.sum" (%0, %3) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<3xi64>) -> tensor<f32>
+    (%5) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%6) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1]} : () -> tensor<2xi64>
+    (%7) = "pd_op.sum" (%0, %6) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<2xi64>) -> tensor<768xf32>
+    (%8) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[768],stop_gradient:[true]} : () -> tensor<768xf32>
+    () = "ap_op.up_spider" (%7, %8) {} : (tensor<768xf32>, tensor<768xf32>) -> 
+    (%9) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.5} : () -> tensor<f32>
+    () = "ap_op.up_spider" (%2, %9) {} : (tensor<f32>, tensor<f32>) -> 
+    (%10) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:1} : () -> tensor<f32>
+    (%11) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.707107} : () -> tensor<f32>
+    () = "ap_op.up_spider" (%4, %11) {} : (tensor<f32>, tensor<f32>) -> 
+    (%12) = "cinn_op.generate_shape" (%5) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%13) = "pd_op.expand" (%10, %12) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%14) = "pd_op.add" (%13, %5) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    () = "ap_op.up_spider" (%0, %14) {} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> 
+    (%15) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,768],stop_gradient:[true]} : () -> tensor<-1x9216x768xf32>
+    () = "ap_op.up_spider" (%0, %15) {} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> 
+}
+I0228 19:51:19.400655 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.400691 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.400816 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.400938 50913 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 19:51:19.400944 50913 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 19:51:19.401073 50913 builtin_functions.cc:121] Print
+after-remove_data_op2sum_op2data_op_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,768],stop_gradient:[true]} : () -> tensor<-1x9216x768xf32>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1,2]} : () -> tensor<3xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<3xi64>) -> tensor<f32>
+    (%3) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1,2]} : () -> tensor<3xi64>
+    (%4) = "pd_op.sum" (%0, %3) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<3xi64>) -> tensor<f32>
+    (%5) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%6) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.5} : () -> tensor<f32>
+    () = "ap_op.up_spider" (%2, %6) {} : (tensor<f32>, tensor<f32>) -> 
+    (%7) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:1} : () -> tensor<f32>
+    (%8) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.707107} : () -> tensor<f32>
+    () = "ap_op.up_spider" (%4, %8) {} : (tensor<f32>, tensor<f32>) -> 
+    (%9) = "cinn_op.generate_shape" (%5) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%10) = "pd_op.expand" (%7, %9) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%11) = "pd_op.add" (%10, %5) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    () = "ap_op.up_spider" (%0, %11) {} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> 
+    (%12) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,768],stop_gradient:[true]} : () -> tensor<-1x9216x768xf32>
+    () = "ap_op.up_spider" (%0, %12) {} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> 
+}
+I0228 19:51:19.401877 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.402006 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.402016 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.402041 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.402128 50913 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 19:51:19.402134 50913 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 19:51:19.402256 50913 builtin_functions.cc:121] Print
+after-remove-input-output-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,768],stop_gradient:[true]} : () -> tensor<-1x9216x768xf32>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1,2]} : () -> tensor<3xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<3xi64>) -> tensor<f32>
+    (%3) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1,2]} : () -> tensor<3xi64>
+    (%4) = "pd_op.sum" (%0, %3) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<3xi64>) -> tensor<f32>
+    (%5) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    (%6) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.5} : () -> tensor<f32>
+    () = "ap_op.up_spider" (%2, %6) {} : (tensor<f32>, tensor<f32>) -> 
+    (%7) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:1} : () -> tensor<f32>
+    (%8) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.707107} : () -> tensor<f32>
+    () = "ap_op.up_spider" (%4, %8) {} : (tensor<f32>, tensor<f32>) -> 
+    (%9) = "cinn_op.generate_shape" (%5) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+    (%10) = "pd_op.expand" (%7, %9) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%11) = "pd_op.add" (%10, %5) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+    () = "ap_op.up_spider" (%0, %11) {} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> 
+}
+E0228 19:51:19.402861 50913 ap_lower_fusion_op_pass.cc:2279] 
+Traceback (most recent call last):
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 2294, in operator()
+    GetMatchCtx(op)
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 1765, in operator()
+    graph_matcher.UpdateByConnectionsUntilDone( &opt_graph_match_ctx.value(), drr_op_result_anchor)
+  File "/work/Paddle/paddle/ap/include/ir_match/graph_matcher.h", line 63, in operator()
+    Solve((*ctx)->topo_match_ctx, anchor_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/graph_matcher.h", line 110, in operator()
+    Solve(proprosal_topo_match_ctx, anchor_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/graph_matcher.h", line 99, in operator()
+    topo_matcher_.UpdateByConnectionsUntilDone( &*topo_match_ctx, anchor_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 59, in operator()
+    UpdateAllByConnections(ctx, anchor_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 220, in operator()
+    ptn_bfs_walker(anchor_node, Update)
+  File "/work/Paddle/paddle/ap/include/adt/bfs_walker.h", line 64, in operator()
+    NodeHandler(node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 212, in operator()
+    UpdateByConnections(match_ctx, sg_node)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 245, in operator()
+    ForEachInitedDownstream(*ctx, sg_node, Update)
+  File "/work/Paddle/paddle/ap/include/graph/node_list.h", line 106, in operator()
+    DoEach(data)
+  File "/work/Paddle/paddle/ap/include/ir_match/topo_matcher.h", line 233, in operator()
+    !bg_nodes.empty()
+
+RuntimeError: small_graph_node: input3, old_big_graph_nodes: pd_op.data_153_out_0 pd_op.data_153_out_0, nearby_node: input3->ap_trivial_fusion_op[trivial_op], is_nearby_node_from_upstream: 0
+pass_name: matmul_trinary_fusion
+E0228 19:51:19.403357 50913 builtin_functions.cc:121] Print
+....begin copy program
+E0228 19:51:19.403467 50913 ap_lower_fusion_op_pass.cc:2279] 
+Traceback (most recent call last):
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 2294, in operator()
+    GetMatchCtx(op)
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 1792, in operator()
+    ConstraintApplier{}.Match(ctx_.drr_ctx, opt_graph_match_ctx.value())
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ap_lower_fusion_op_pass.cc", line 1622, in operator()
+    ap_drr_helper.Interpret(constraint_func, args)
+  File "/work/Paddle/paddle/ap/include/axpr/cps_interpreter.h", line 69, in operator()
+    InterpretComposedCallUntilHalt(&composed_call)
+  File "/work/Paddle/paddle/ap/include/axpr/cps_interpreter.h", line 101, in operator()
+    InterpretComposedCall(composed_call)
+  File "/work/Paddle/paddle/ap/include/axpr/cps_interpreter.h", line 568, in operator()
+    func(obj, composed_call->args)
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ir_helper_method_class.cc", line 270, in operator()
+    InitIrMapping(NameGetter, pir::GetUsedExternalValue(*block), &ir_mapping, new_program->block())
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ir_helper_method_class.cc", line 305, in operator()
+    NameGetter(free_value)
+  File "/work/Paddle/paddle/ap/src/paddle/pass/ir_helper_method_class.cc", line 140, in operator()
+    iter != map.end()
+
+ValueError: Check 'iter != map.end()' failed.
+pass_name: matmul_binary_fusion
+E0228 19:51:19.408820 50913 builtin_functions.cc:121] Print
+before-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%1) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[192],stop_gradient:[true]} : () -> tensor<192xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input3",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%3) = "cinn_op.generate_shape" (%0) {output_dim_exprs:["SS0",9216,192],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x192xf32>) -> tensor<3xi64>
+    (%4) = "pd_op.expand" (%1, %3) {stop_gradient:[true]} : (tensor<192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%5) = "pd_op.add" (%0, %4) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+    (%6) = "pd_op.add" (%2, %5) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%7) = "cinn_op.yield_store" (%6) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    () = "cf.yield" (%7) {} : (tensor<-1x9216x192xf32>) -> 
+}
+I0228 19:51:19.409801 50913 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 19:51:19.409814 50913 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+I0228 19:51:19.409946 50913 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 19:51:19.409953 50913 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 19:51:19.410167 50913 builtin_functions.cc:121] Print
+after-init-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[192],stop_gradient:[true]} : () -> tensor<192xf32>
+    (%3) = "pd_op.data" () {dtype:float32,name:"input3",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%4) = "cinn_op.generate_shape" (%1) {output_dim_exprs:["SS0",9216,192],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x192xf32>) -> tensor<3xi64>
+    (%5) = "pd_op.expand" (%2, %4) {stop_gradient:[true]} : (tensor<192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+    (%6) = "pd_op.add" (%1, %5) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+    (%7) = "pd_op.add" (%3, %6) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%8) = "cinn_op.yield_store" (%7) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%9) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    () = "ap_op.up_spider" (%8, %9) {} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> 
+}
+I0228 19:51:19.416321 50913 ap_lower_fusion_op_pass.cc:2434] drr: down_spider_add matched.
+I0228 19:51:19.416335 50913 ap_lower_fusion_op_pass.cc:308] drr: down_spider_add matched.
+I0228 19:51:19.416405 50913 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 19:51:19.416456 50913 ap_lower_fusion_op_pass.cc:2434] drr: cinn_op_yield_store matched.
+I0228 19:51:19.416460 50913 ap_lower_fusion_op_pass.cc:308] drr: cinn_op_yield_store matched.
+I0228 19:51:19.416512 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.416534 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.416571 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.416612 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.416630 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.416671 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.416841 50913 ap_lower_fusion_op_pass.cc:2434] drr: expand_up_spider matched.
+I0228 19:51:19.416848 50913 ap_lower_fusion_op_pass.cc:308] drr: expand_up_spider matched.
+I0228 19:51:19.416985 50913 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 19:51:19.417009 50913 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 19:51:19.417029 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.417049 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.417068 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.417086 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.417105 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.417126 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.417145 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.417164 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.417182 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.417199 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+I0228 19:51:19.417224 50913 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_add mismatched.
+I0228 19:51:19.417244 50913 ap_lower_fusion_op_pass.cc:2413] drr: down_spider_relu mismatched.
+I0228 19:51:19.417263 50913 ap_lower_fusion_op_pass.cc:2413] drr: cinn_broadcast_up_spider mismatched.
+I0228 19:51:19.417292 50913 ap_lower_fusion_op_pass.cc:2413] drr: expand_up_spider mismatched.
+I0228 19:51:19.417313 50913 ap_lower_fusion_op_pass.cc:2413] drr: left_down_spider_up_spider mismatched.
+I0228 19:51:19.417332 50913 ap_lower_fusion_op_pass.cc:2413] drr: right_down_spider_up_spider mismatched.
+I0228 19:51:19.417349 50913 ap_lower_fusion_op_pass.cc:2413] drr: triangle_left_down_spider_up_spider mismatched.
+E0228 19:51:19.417443 50913 builtin_functions.cc:121] Print
+after-apply-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%1) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],value:[0,1]} : () -> tensor<2xi64>
+    (%2) = "pd_op.sum" (%0, %1) {dtype:Undefined,keepdim:false,stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<2xi64>) -> tensor<192xf32>
+    (%3) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%4) = "pd_op.data" () {dtype:float32,name:"input2",place:Place(undefined:0),shape:[192],stop_gradient:[true]} : () -> tensor<192xf32>
+    () = "ap_op.up_spider" (%2, %4) {} : (tensor<192xf32>, tensor<192xf32>) -> 
+    (%5) = "pd_op.data" () {dtype:float32,name:"input3",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%6) = "pd_op.add" (%5, %3) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%7) = "pd_op.relu" (%6) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%8) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    () = "ap_op.up_spider" (%7, %8) {} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> 
+}
+I0228 19:51:19.417963 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.418094 50913 ap_lower_fusion_op_pass.cc:2434] drr: tmp_access_drr_pass_1 matched.
+I0228 19:51:19.418100 50913 ap_lower_fusion_op_pass.cc:308] drr: tmp_access_drr_pass_1 matched.
+E0228 19:51:19.418181 50913 builtin_functions.cc:121] Print
+after-apply-Removesuminput2_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input3",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%3) = "pd_op.add" (%2, %1) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> 
+}
+I0228 19:51:19.418926 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.418938 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.418941 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.418954 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.418975 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.418979 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+E0228 19:51:19.419029 50913 builtin_functions.cc:121] Print
+after-apply-Removesuminput3_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input3",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%3) = "pd_op.add" (%2, %1) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> 
+}
+I0228 19:51:19.419869 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 19:51:19.419881 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 19:51:19.419885 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 19:51:19.419898 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.419919 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.419922 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.419940 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.419955 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.419978 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+E0228 19:51:19.420037 50913 builtin_functions.cc:121] Print
+after-remove-input3_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input3",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%3) = "pd_op.add" (%2, %1) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> 
+}
+I0228 19:51:19.421047 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_4 mismatched.
+I0228 19:51:19.421061 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_4 mismatched.
+I0228 19:51:19.421064 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_4 mismatched.
+I0228 19:51:19.421077 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 19:51:19.421098 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 19:51:19.421106 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 19:51:19.421125 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.421139 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.421162 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.421188 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.421202 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.421223 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+E0228 19:51:19.421289 50913 builtin_functions.cc:121] Print
+after-remove-input2_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input3",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%3) = "pd_op.add" (%2, %1) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> 
+}
+I0228 19:51:19.422435 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_5 mismatched.
+I0228 19:51:19.422447 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_5 mismatched.
+I0228 19:51:19.422451 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_5 mismatched.
+I0228 19:51:19.422464 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_4 mismatched.
+I0228 19:51:19.422485 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_4 mismatched.
+I0228 19:51:19.422493 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_4 mismatched.
+I0228 19:51:19.422511 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 19:51:19.422528 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 19:51:19.422550 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_3 mismatched.
+I0228 19:51:19.422575 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.422590 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.422611 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_2 mismatched.
+I0228 19:51:19.422634 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.422648 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+I0228 19:51:19.422668 50913 ap_lower_fusion_op_pass.cc:2413] drr: tmp_access_drr_pass_1 mismatched.
+E0228 19:51:19.422725 50913 builtin_functions.cc:121] Print
+after-remove-input-output-access_topo_pass {
+    (%0) = "pd_op.data" () {dtype:float32,name:"mm_out",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%1) = "ap_op.down_spider" (%0) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%2) = "pd_op.data" () {dtype:float32,name:"input3",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%3) = "pd_op.add" (%2, %1) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%4) = "pd_op.relu" (%3) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"output",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    () = "ap_op.up_spider" (%4, %5) {} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> 
+}
+E0228 19:51:19.423113 50913 add_cinn_pass.cc:233] after ApLowerFusionOpAbstractDrrPass:
+{
+    (%0) = "pd_op.data" () {dtype:int64,name:"t0",place:Place(undefined:0),shape:[],stop_gradient:[true]} : () -> tensor<i64>
+    (%1) = "pd_op.data" () {dtype:int64,name:"t1",place:Place(undefined:0),shape:[],stop_gradient:[true]} : () -> tensor<i64>
+    (%2) = "pd_op.data" () {dtype:int64,name:"t2",place:Place(undefined:0),shape:[],stop_gradient:[true]} : () -> tensor<i64>
+    (%3) = "pd_op.data" () {dtype:float32,name:"t3",place:Place(undefined:0),shape:[-1,96,96,192],stop_gradient:[true]} : () -> tensor<-1x96x96x192xf32>
+    (%4) = "pd_op.data" () {dtype:float32,name:"t4",place:Place(undefined:0),shape:[-1,9216,192],stop_gradient:[true]} : () -> tensor<-1x9216x192xf32>
+    (%5) = "pd_op.data" () {dtype:float32,name:"t5",place:Place(undefined:0),shape:[192],stop_gradient:[true]} : () -> tensor<192xf32>
+    (%6) = "pd_op.data" () {dtype:float32,name:"t6",place:Place(undefined:0),shape:[192],stop_gradient:[true]} : () -> tensor<192xf32>
+    (%7) = "pd_op.data" () {dtype:float32,name:"t7",place:Place(undefined:0),shape:[192,768],stop_gradient:[true]} : () -> tensor<192x768xf32>
+    (%8) = "pd_op.data" () {dtype:float32,name:"t8",place:Place(undefined:0),shape:[768],stop_gradient:[true]} : () -> tensor<768xf32>
+    (%9) = "pd_op.data" () {dtype:float32,name:"t9",place:Place(undefined:0),shape:[768,192],stop_gradient:[true]} : () -> tensor<768x192xf32>
+    (%10) = "pd_op.data" () {dtype:float32,name:"t10",place:Place(undefined:0),shape:[192],stop_gradient:[true]} : () -> tensor<192xf32>
+    (%11) = "pd_op.data" () {dtype:int64,name:"t11",place:Place(undefined:0),shape:[1],stop_gradient:[true]} : () -> tensor<1xi64>
+    (%12) = "pd_op.data" () {dtype:int64,name:"t12",place:Place(undefined:0),shape:[1],stop_gradient:[true]} : () -> tensor<1xi64>
+    (%13, %14) = "cinn_op.fusion" () -> tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32> {
+        (%15) = "cinn_op.generate_shape" (%0, %1, %2) {output_dim_exprs:["S0","S1","S2"],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["DataSymbolBinding","S1",1,0],["DataSymbolBinding","S2",2,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>) -> tensor<3xi64>
+        (%16) = "pd_op.reshape" (%3, %15) {stop_gradient:[true]} : (tensor<-1x96x96x192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%17) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%18) = "pd_op.expand" (%4, %17) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%19) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%20) = "pd_op.expand" (%16, %19) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%21) = "pd_op.add" (%18, %20) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%22) = "cinn_op.yield_store" (%21) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+        (%23) = "cinn_op.reduce_sum" (%21) {axis:[2],dtype:float32,keepdim:true,stop_gradient:[true]} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x1xf32>
+        (%24) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:192} : () -> tensor<f32>
+        (%25) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,1],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%26) = "pd_op.expand" (%24, %25) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%27) = "pd_op.divide" (%23, %26) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x1xf32>
+        (%28) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%29) = "pd_op.expand" (%27, %28) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%30) = "pd_op.subtract" (%21, %29) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%31) = "pd_op.multiply" (%30, %30) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+        (%32) = "cinn_op.reduce_sum" (%31) {axis:[2],dtype:float32,keepdim:true,stop_gradient:[true]} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x1xf32>
+        (%33) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:192} : () -> tensor<f32>
+        (%34) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,1],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%35) = "pd_op.expand" (%33, %34) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%36) = "pd_op.divide" (%32, %35) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x1xf32>
+        (%37) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:1e-05} : () -> tensor<f32>
+        (%38) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,1],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%39) = "pd_op.expand" (%37, %38) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%40) = "pd_op.add" (%36, %39) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x1xf32>
+        (%41) = "pd_op.rsqrt" (%40) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>) -> tensor<-1x9216x1xf32>
+        (%42) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%43) = "pd_op.expand" (%41, %42) {stop_gradient:[true]} : (tensor<-1x9216x1xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%44) = "pd_op.multiply" (%30, %43) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%45) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%46) = "pd_op.expand" (%5, %45) {stop_gradient:[true]} : (tensor<192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%47) = "pd_op.multiply" (%44, %46) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%48) = "cinn_op.generate_shape" (%0, %1, %2, %3, %4) {output_dim_exprs:[["Broadcast","S0","S4"],9216,192],stop_gradient:[true],symbol_bindings:[["DataSymbolBinding","S0",0,0],["ShapeSymbolBinding","S4",4,0]]} : (tensor<i64>, tensor<i64>, tensor<i64>, tensor<-1x96x96x192xf32>, tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%49) = "pd_op.expand" (%6, %48) {stop_gradient:[true]} : (tensor<192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%50) = "pd_op.add" (%47, %49) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%51) = "cinn_op.yield_store" (%50) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+        () = "cf.yield" (%22, %51) {} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> 
+    }
+    (%52) = "pd_op.matmul" (%14, %7) {stop_gradient:[true],transpose_x:false,transpose_y:false} : (tensor<-1x9216x192xf32>, tensor<192x768xf32>) -> tensor<-1x9216x768xf32>
+    (%53) = "cinn_op.fusion" () -> tensor<-1x9216x768xf32> {
+        (%54) = "cinn_op.generate_shape" (%52) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+        (%55) = "pd_op.expand" (%8, %54) {stop_gradient:[true]} : (tensor<768xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%56) = "pd_op.add" (%52, %55) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+        (%57) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.5} : () -> tensor<f32>
+        (%58) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:1} : () -> tensor<f32>
+        (%59) = "pd_op.full" () {dtype:float32,place:Place(undefined:0),shape:[],stop_gradient:[true],value:0.707107} : () -> tensor<f32>
+        (%60) = "cinn_op.generate_shape" (%56) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+        (%61) = "pd_op.expand" (%59, %60) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%62) = "pd_op.multiply" (%56, %61) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+        (%63) = "pd_op.erf" (%62) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+        (%64) = "cinn_op.generate_shape" (%63) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+        (%65) = "pd_op.expand" (%58, %64) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%66) = "pd_op.add" (%65, %63) {stop_gradient:[true]} : (tensor<-1x-1x-1xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+        (%67) = "cinn_op.generate_shape" (%56) {output_dim_exprs:["SS0",9216,768],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x768xf32>) -> tensor<3xi64>
+        (%68) = "pd_op.expand" (%57, %67) {stop_gradient:[true]} : (tensor<f32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%69) = "pd_op.multiply" (%56, %68) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x768xf32>
+        (%70) = "pd_op.multiply" (%69, %66) {stop_gradient:[true]} : (tensor<-1x9216x768xf32>, tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+        (%71) = "cinn_op.yield_store" (%70) {} : (tensor<-1x9216x768xf32>) -> tensor<-1x9216x768xf32>
+        () = "cf.yield" (%71) {} : (tensor<-1x9216x768xf32>) -> 
+    }
+    (%72) = "pd_op.matmul" (%53, %9) {stop_gradient:[true],transpose_x:false,transpose_y:false} : (tensor<-1x9216x768xf32>, tensor<768x192xf32>) -> tensor<-1x9216x192xf32>
+    (%73) = "cinn_op.fusion" () -> tensor<-1x9216x192xf32> {
+        (%74) = "cinn_op.generate_shape" (%72) {output_dim_exprs:["SS0",9216,192],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x192xf32>) -> tensor<3xi64>
+        (%75) = "pd_op.expand" (%10, %74) {stop_gradient:[true]} : (tensor<192xf32>, tensor<3xi64>) -> tensor<-1x-1x-1xf32>
+        (%76) = "pd_op.add" (%72, %75) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x-1x-1xf32>) -> tensor<-1x9216x192xf32>
+        (%77) = "pd_op.add" (%13, %76) {stop_gradient:[true]} : (tensor<-1x9216x192xf32>, tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+        (%78) = "cinn_op.yield_store" (%77) {} : (tensor<-1x9216x192xf32>) -> tensor<-1x9216x192xf32>
+        () = "cf.yield" (%78) {} : (tensor<-1x9216x192xf32>) -> 
+    }
+    (%79) = "cinn_op.generate_shape" (%73) {output_dim_exprs:["SS0"],stop_gradient:[true],symbol_bindings:[["ShapeSymbolBinding","SS0",0,0]]} : (tensor<-1x9216x192xf32>) -> tensor<i64>
+    (%80) = "pd_op.share_data_" (%79) {stop_gradient:[true]} : (tensor<i64>) -> tensor<i64>
+    () = "builtin.shadow_output" (%73) {output_name:"output_0"} : (tensor<-1x9216x192xf32>) -> 
+    () = "builtin.shadow_output" (%80) {output_name:"output_1"} : (tensor<i64>) -> 
+}
+E.
+======================================================================
+ERROR: test_entry (__main__.TestSubGraphLayer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/PaddleTest/framework/e2e/PaddleLT_new/layerE2Ecase/matmul-related-subgraphs//test_sequence_a6b0ed75b1eb7f1a1f3759d242d1b87a_0.py", line 480, in test_entry
+    return self._test_entry()
+  File "/work/PaddleTest/framework/e2e/PaddleLT_new/layerE2Ecase/matmul-related-subgraphs//test_sequence_a6b0ed75b1eb7f1a1f3759d242d1b87a_0.py", line 275, in _test_entry
+    dy_outs = self.train(use_cinn=False)
+  File "/work/PaddleTest/framework/e2e/PaddleLT_new/layerE2Ecase/matmul-related-subgraphs//test_sequence_a6b0ed75b1eb7f1a1f3759d242d1b87a_0.py", line 291, in train
+    out = net(*self.inputs)
+  File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/nn/layer/layers.py", line 1530, in __call__
+    return self.forward(*inputs, **kwargs)
+  File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/jit/dy2static/program_translator.py", line 548, in __call__
+    return self._perform_call(*args, **kwargs)
+  File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/jit/dy2static/program_translator.py", line 878, in _perform_call
+    error_data.raise_new_exception()
+  File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/jit/dy2static/error.py", line 454, in raise_new_exception
+    raise new_exception from None
+ValueError: In transformed code:
+
+
+    File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/jit/dy2static/pir_partial_program.py", line 715, in __call__
+	attrs = self._prepare_attributes(in_sot_mode=False)
+    File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/jit/dy2static/pir_partial_program.py", line 1104, in _prepare_attributes
+	self.program.forward_program,
+    File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/jit/dy2static/pir_partial_program.py", line 921, in program
+	return self.train_program
+    File "/usr/lib/python3.10/functools.py", line 981, in __get__
+	val = self.func(instance)
+    File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/jit/dy2static/pir_partial_program.py", line 937, in train_program
+	return self._create_program()
+    File "/work/Paddle/env3.10/lib/python3.10/site-packages/decorator.py", line 232, in fun
+	return caller(func, *(extras + args), **kw)
+    File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/base/wrapped_decorator.py", line 40, in __impl__
+	return wrapped_func(*args, **kwargs)
+    File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/base/dygraph/base.py", line 101, in __impl__
+	return func(*args, **kwargs)
+    File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/jit/dy2static/pir_partial_program.py", line 903, in _create_program
+	train_program.apply_pir_program_pass(pass_fn)
+    File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/jit/dy2static/pir_partial_program.py", line 351, in apply_pir_program_pass
+	self.forward_program, self.backward_program = pass_fn(
+    File "/work/Paddle/env3.10/lib/python3.10/site-packages/paddle/jit/dy2static/pir_partial_program.py", line 892, in pass_fn
+	paddle.base.libpaddle.pir.apply_cinn_pass(forward_program)
+
+    ValueError: (InvalidArgument) The axis is expected to be in range of [0, 0), but got 0
+  [Hint: Expected axis >= -rank && axis < rank == true, but received axis >= -rank && axis < rank:0 != true:1.] (at /work/Paddle/paddle/phi/infermeta/multiary.cc:1309)
+
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.483s
+
+FAILED (errors=1)
+all prim enabled:  True
